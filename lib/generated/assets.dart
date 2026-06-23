@@ -6,6 +6,8 @@ class Assets {
   Assets._();
 
   static const AssetGenImage cardBg = AssetGenImage('asset/card_bg.png');
+  static const AssetGenImage congrats = AssetGenImage('asset/congrats.png');
+  static const AssetGenImage stage = AssetGenImage('asset/stage.png');
   static const $AssetsCategoryGen category = $AssetsCategoryGen();
 }
 

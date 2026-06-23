@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_shell/views/home_page.dart';
 
 import '../service/database_service.dart';
 import '../service/user_data.dart';
@@ -75,7 +76,7 @@ class QuizResult extends StatelessWidget {
               const Spacer(),
               SafeArea(
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (route) => false),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff2200a6),
                     minimumSize: const Size(double.infinity, 56),

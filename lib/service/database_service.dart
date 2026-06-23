@@ -57,4 +57,9 @@ class DatabaseService {
     if (uid == null) return Stream.empty();
     return database.collection(userDatabaseLabel).doc(uid).collection(quizSessionDatabaseLabel).orderBy('dateTime', descending: true).snapshots();
   }
+
+  //Get all users info for leaderboard (ordered by totalScore)
+  Stream<QuerySnapshot> get allUsersStream {
+    return database.collection(userDatabaseLabel).orderBy('totalScore', descending: true).snapshots();
+  }
 }

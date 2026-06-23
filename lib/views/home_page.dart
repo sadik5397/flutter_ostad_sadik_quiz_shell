@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:quiz_shell/service/database_service.dart';
 import 'package:quiz_shell/views/admin_options.dart';
+import 'package:quiz_shell/views/leaderboard.dart';
 import 'package:quiz_shell/widgets/banner_card.dart';
 import 'package:quiz_shell/widgets/category_card.dart';
 import 'package:quiz_shell/widgets/home_page_header.dart';
@@ -69,6 +70,19 @@ class _HomePageState extends State<HomePage> {
                         }),
                       ),
                     ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Leaderboard())),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Color(0xff2c2199)),
+                  fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12))),
+                ),
+                child: Text(
+                  "Check Leaderboard",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+              ),
               SizedBox(height: 20),
               TitleSection(label: "Recent", showSeeAll: false),
               SizedBox(height: 16),
@@ -87,9 +101,7 @@ class _HomePageState extends State<HomePage> {
                           totalAttempt: data['totalAttempt'] ?? '--',
                           totalCorrect: data['totalCorrect'] ?? '--',
                           gainedScore: data['gainedScore'] ?? '--',
-                          playedOn: data['dateTime'] != null 
-                              ? (data['dateTime'] as Timestamp).toDate().toString().split(" ").first 
-                              : '--',
+                          playedOn: data['dateTime'] != null ? (data['dateTime'] as Timestamp).toDate().toString().split(" ").first : '--',
                         ),
                       );
                     }).toList(),
