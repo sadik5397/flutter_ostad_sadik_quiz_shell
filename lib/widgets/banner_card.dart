@@ -6,6 +6,7 @@ class BannerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.all(20),
@@ -28,6 +29,7 @@ class BannerCard extends StatelessWidget {
           ElevatedButton(
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizCategories())),
             style: ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll(colorScheme.onPrimary),
               shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(10))),
               padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
             ),
@@ -38,9 +40,9 @@ class BannerCard extends StatelessWidget {
               children: [
                 Text(
                   "Get Started",
-                  style: TextStyle(color: Color(0xff220c87), fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: colorScheme.primary, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                Icon(Icons.arrow_forward_ios_rounded, color: Color(0xff220c87)),
+                Icon(Icons.arrow_forward_ios_rounded, color: colorScheme.primary),
               ],
             ),
           ),

@@ -1,9 +1,12 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:quiz_shell/provider/app_state_provider.dart';
+import 'package:quiz_shell/provider/category_provider.dart';
 import 'package:quiz_shell/service/database_service.dart';
+import 'package:quiz_shell/theme/theme_border_radius.dart';
+import 'package:quiz_shell/theme/theme_padding.dart';
+import 'package:quiz_shell/theme/theme_spacing.dart';
 import 'package:quiz_shell/views/admin_options.dart';
 import 'package:quiz_shell/views/leaderboard.dart';
 import 'package:quiz_shell/widgets/banner_card.dart';
@@ -22,70 +25,68 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<QuizCategory> allCategories = [];
-
   @override
   void initState() {
     super.initState();
-    loadQuizCategories();
-  }
-
-  Future<void> loadQuizCategories() async {
-    String url = "https://sadiks-quiz-apihub.lovable.app/api/v1/categories";
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var result = jsonDecode(response.body);
-      List data = result["data"];
-      setState(() => allCategories = data.map((item) => QuizCategory.fromJson(item)).toList());
-    } else {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Failed to load categories")));
-    }
+    context.read<CategoryProvider>().initiate(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => context.read<AppStateProvider>().toggleTheme(context),
+        label: Consumer<AppStateProvider>(
+          builder: (context, appStateProvider, child) {
+            return Text("Switch Theme to ${appStateProvider.themeMode == ThemeMode.light ? "Dark" : "Light"}");
+          },
+        ),
+        icon: Icon(Icons.toggle_off),
+      ),
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () async => await loadQuizCategories(),
+          onRefresh: () async => await context.read<CategoryProvider>().loadQuizCategories(context),
           child: ListView(
-            padding: EdgeInsets.all(16),
+            padding: ThemePadding.all,
             children: [
               HomePageHeader(),
-              SizedBox(height: 16),
+              ThemeSpacing.vertical,
               BannerCard(),
-              SizedBox(height: 32),
+              ThemeSpacing.verticalX2,
               TitleSection(label: "Subject"),
-              SizedBox(height: 16),
-              allCategories.isEmpty
-                  ? LinearProgressIndicator()
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        spacing: 12,
-                        children: List.generate(allCategories.length, (index) {
-                          QuizCategory cat = allCategories[index];
-                          return CategoryCard(category: cat);
-                        }),
+              ThemeSpacing.vertical,
+              Consumer<CategoryProvider>(
+                builder: (context, categoryProvider, child) => categoryProvider.allCategories.isEmpty
+                    ? LinearProgressIndicator()
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          spacing: ThemeSpacing.value,
+                          children: List.generate(categoryProvider.allCategories.length, (index) {
+                            QuizCategory cat = categoryProvider.allCategories[index];
+                            return CategoryCard(category: cat);
+                          }),
+                        ),
                       ),
-                    ),
-              SizedBox(height: 16),
+              ),
+              ThemeSpacing.vertical,
               ElevatedButton(
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Leaderboard())),
                 style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Color(0xff2c2199)),
+                  backgroundColor: WidgetStatePropertyAll(colorScheme.primary),
                   fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12))),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: ThemeBorderRadius.all)),
                 ),
                 child: Text(
                   "Check Leaderboard",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onPrimary),
                 ),
               ),
-              SizedBox(height: 20),
+              ThemeSpacing.verticalX2,
               TitleSection(label: "Recent", showSeeAll: false),
-              SizedBox(height: 16),
+              ThemeSpacing.vertical,
               StreamBuilder<QuerySnapshot>(
                 stream: DatabaseService().sessionHistoryStream,
                 builder: (context, snapshot) {
@@ -108,12 +109,12 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              SizedBox(height: 24),
+              ThemeSpacing.verticalX2,
               OutlinedButton(
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminOptions())),
                 style: ButtonStyle(
                   fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12))),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: ThemeBorderRadius.all)),
                 ),
                 child: Text("Admin Options", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
