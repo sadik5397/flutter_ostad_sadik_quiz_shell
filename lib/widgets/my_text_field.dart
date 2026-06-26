@@ -16,15 +16,29 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return TextFormField(
       controller: controller,
       keyboardType: showNumberKeyboardOnly ? TextInputType.number : TextInputType.text,
       validator: validator,
+      style: TextStyle(color: colorScheme.onSurface),
       decoration: InputDecoration(
         label: Text(label),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        labelStyle: TextStyle(color: colorScheme.onSurfaceVariant),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.outline),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.outlineVariant),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.primary, width: 2),
+        ),
         filled: true,
-        fillColor: Colors.grey[50],
+        fillColor: colorScheme.surfaceContainerLow,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     );

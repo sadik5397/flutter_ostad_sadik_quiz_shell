@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_shell/views/home_page.dart';
 
 import '../service/auth_service.dart';
-// import '../service/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,39 +10,63 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool _isSigningIn = false;
+
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
+      backgroundColor: colorScheme.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.quiz, size: 100, color: Color(0xff2200a5)),
+            Icon(Icons.quiz, size: 100, color: colorScheme.primary),
             const SizedBox(height: 20),
-            const Text("Quiz Shell", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+            Text(
+              "Quiz Shell",
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
             const SizedBox(height: 50),
             ElevatedButton.icon(
-              onPressed: () async {
-                final user = await AuthService().signInWithGoogle();
-                if (user == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign in failed")));
-                } else {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
-                }
-              },
-              icon: Image.network('http://pngimg.com/uploads/google/google_PNG19635.png', height: 24),
-              label: const Text("Sign in with Google"),
+              onPressed: _isSigningIn
+                  ? null
+                  : () async {
+                      setState(() {
+                        _isSigningIn = true;
+                      });
+
+                      final user = await AuthService().signInWithGoogle();
+                      if (!context.mounted) {
+                        return;
+                      }
+
+                      if (user == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Sign in failed")),
+                        );
+                      }
+
+                      setState(() {
+                        _isSigningIn = false;
+                      });
+                    },
+              icon: Image.network(
+                'http://pngimg.com/uploads/google/google_PNG19635.png',
+                height: 24,
+              ),
+              label: Text(_isSigningIn ? "Signing in..." : "Sign in with Google"),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
+                backgroundColor: colorScheme.surface,
+                foregroundColor: colorScheme.onSurface,
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  side: const BorderSide(color: Colors.grey),
+                  side: BorderSide(color: colorScheme.outline),
                 ),
               ),
             ),

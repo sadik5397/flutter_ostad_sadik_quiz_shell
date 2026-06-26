@@ -9,9 +9,7 @@ class HiveDatabase {
   }
 
   static Box get box {
-    if (hiveStorage == null) {
-      throw Exception("Database not found");
-    }
+    if (hiveStorage == null) throw Exception("Database not found");
     return hiveStorage!;
   }
 

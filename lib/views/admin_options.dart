@@ -11,52 +11,73 @@ class AdminOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: const Text("Admin Options")),
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: colorScheme.surface,
+        title: const Text("Admin Options"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TitleSection(label: "Quiz from API Hub", showSeeAll: false),
-            SizedBox(height: 16),
+            TitleSection(label: "Quiz from Local", showSeeAll: false),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddQuestion())),
-                    child: Text("Add Question"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: const Text("Add Question"),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddedQuestions())),
-                    child: Text("View Questions"),
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: const Text("View Questions"),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             TitleSection(label: "Quiz from API Hub", showSeeAll: false),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddQuestionViaApi())),
-                    child: Text("Add Question"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: const Text("Add Question"),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionsFromApi())),
-                    child: Text("View Questions"),
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: const Text("View Questions"),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
           ],
         ),
       ),

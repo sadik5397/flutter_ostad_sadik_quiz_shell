@@ -16,6 +16,7 @@ import 'package:quiz_shell/widgets/recent_card.dart';
 import 'package:quiz_shell/widgets/title_section.dart';
 
 import '../model/quiz_category_model.dart';
+import '../theme/theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,14 +37,14 @@ class _HomePageState extends State<HomePage> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.read<AppStateProvider>().toggleTheme(context),
-        label: Consumer<AppStateProvider>(
-          builder: (context, appStateProvider, child) {
-            return Text("Switch Theme to ${appStateProvider.themeMode == ThemeMode.light ? "Dark" : "Light"}");
-          },
-        ),
-        icon: Icon(Icons.toggle_off),
+      floatingActionButton: Consumer<AppStateProvider>(
+        builder: (context, appStateProvider, child) {
+          return FloatingActionButton.extended(
+            onPressed: () => context.read<AppStateProvider>().toggleTheme(context),
+            label: Text("Switch Theme to ${AppTheme.isDark(context) ? "Light" : "Dark"}"),
+            icon: Icon(AppTheme.isDark(context) ? Icons.light_mode_rounded : Icons.dark_mode_rounded),
+          );
+        },
       ),
       body: SafeArea(
         child: RefreshIndicator(

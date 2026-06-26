@@ -9,15 +9,26 @@ class ProfileInfoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Row(
       children: [
-        Icon(icon, color: const Color(0xff2200a5), size: 28),
+        Icon(icon, color: colorScheme.primary, size: 28),
         const SizedBox(width: 16),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
-            Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              label,
+              style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
+            ),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
           ],
         ),
       ],

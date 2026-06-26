@@ -27,6 +27,7 @@ class _QuizTimerState extends State<QuizTimer> {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -35,13 +36,16 @@ class _QuizTimerState extends State<QuizTimer> {
           height: 56,
           child: CircularProgressIndicator(
             value: remainingSecond / totalSeconds,
-            backgroundColor: const Color(0xffe1deee),
-            color: remainingSecond < 10 ? Colors.red : const Color(0xff2200a5),
+            backgroundColor: colorScheme.outlineVariant,
+            color: remainingSecond < 10 ? colorScheme.error : colorScheme.primary,
           ),
         ),
         Text(
           "00:${remainingSecond < 10 ? '0' : ''}$remainingSecond",
-          style: TextStyle(color: remainingSecond < 10 ? Colors.red : Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: remainingSecond < 10 ? colorScheme.error : colorScheme.onSurface,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

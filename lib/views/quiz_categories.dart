@@ -9,8 +9,13 @@ class QuizCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: const Text("Quiz Categories")),
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: colorScheme.surface,
+        title: const Text("Quiz Categories"),
+      ),
       body: Consumer<CategoryProvider>(
         builder: (context, categoryProvider, child) {
           return RefreshIndicator(

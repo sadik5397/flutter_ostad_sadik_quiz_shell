@@ -9,6 +9,7 @@ class QuizProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Column(
       spacing: 16,
       children: [
@@ -33,7 +34,7 @@ class QuizProgress extends StatelessWidget {
             QuizTimer(key: ValueKey(currentProgress)),
           ],
         ),
-        LinearProgressIndicator(value: currentProgress / totalCount),
+        LinearProgressIndicator(value: currentProgress / totalCount, backgroundColor: colorScheme.surfaceContainerHigh,),
       ],
     );
   }

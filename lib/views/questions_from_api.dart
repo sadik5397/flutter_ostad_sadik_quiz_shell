@@ -36,8 +36,13 @@ class _QuestionsFromApiState extends State<QuestionsFromApi> {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: const Text("Locally Added Questions")),
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: colorScheme.surface,
+        title: const Text("Locally Added Questions"),
+      ),
       body: allQuestions.isEmpty
           ? Center(child: CircularProgressIndicator())
           : RefreshIndicator(

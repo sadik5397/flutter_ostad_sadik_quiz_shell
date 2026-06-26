@@ -152,7 +152,7 @@ class AppTheme {
       outlineVariant: Color(0xff44474e),
 
       // Utility Colors
-      shadow: Color(0xffffffff),
+      shadow: Color(0xff000000),
       scrim: Color(0xff000000),
     ),
   );

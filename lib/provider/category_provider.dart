@@ -21,7 +21,7 @@ class CategoryProvider with ChangeNotifier {
       allCategories = data.map((item) => QuizCategory.fromJson(item)).toList();
       notifyListeners();
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Failed to load categories")));
+      if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Failed to load categories")));
     }
   }
 }

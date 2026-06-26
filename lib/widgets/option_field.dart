@@ -17,11 +17,13 @@ class OptionField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Radio<int?>(
           value: index,
+          activeColor: colorScheme.primary,
           visualDensity: VisualDensity.compact,
         ),
         Expanded(
@@ -34,7 +36,7 @@ class OptionField extends StatelessWidget {
         if (onRemove != null)
           IconButton(
             onPressed: onRemove,
-            icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
+            icon: Icon(Icons.remove_circle_outline, color: colorScheme.error),
           ),
       ],
     );

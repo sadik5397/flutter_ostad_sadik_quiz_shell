@@ -65,8 +65,9 @@ class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Question saved successfully!"), backgroundColor: Colors.green));
       } else {
-        print("ERROR");
+        if (!mounted) return;
       }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to save question. Status code: ${response.statusCode}"), backgroundColor: Colors.red));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error saving question: $e"), backgroundColor: Colors.red));
     }
@@ -95,9 +96,11 @@ class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
+        backgroundColor: colorScheme.surface,
         title: const Text("Add New Question"),
         elevation: 0,
         actions: [IconButton(onPressed: resetForm, icon: const Icon(Icons.refresh), tooltip: "Reset Form")],
@@ -138,7 +141,15 @@ class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 42),
-                    child: OutlinedButton.icon(onPressed: addOption, icon: const Icon(Icons.add), label: const Text("Add More Options")),
+                    child: OutlinedButton.icon(
+                      onPressed: addOption,
+                      icon: const Icon(Icons.add),
+                      label: const Text("Add More Options"),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: colorScheme.primary,
+                        side: BorderSide(color: colorScheme.primary),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -161,8 +172,8 @@ class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
               child: ElevatedButton(
                 onPressed: addQuestion,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff2200a5),
-                  foregroundColor: Colors.white,
+                  backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: const Text("SUBMIT QUESTION", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

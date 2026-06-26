@@ -12,6 +12,22 @@ class AuthService {
 
   Stream<User?> get authStateChanges => firebaseAuth.authStateChanges();
 
+  Future<User?> restoreSessionIfPossible() async {
+    try {
+      final existingUser = firebaseAuth.currentUser;
+      if (existingUser != null) return existingUser;
+      final googleUser = await googleSignIn.signInSilently();
+      if (googleUser == null) return null;
+      final googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      final userCredential = await firebaseAuth.signInWithCredential(credential);
+      return userCredential.user;
+    } on Exception catch (e) {
+      debugPrint("Failed to restore auth session: $e");
+      return null;
+    }
+  }
+
   Future<UserCredential?> signInWithGoogle() async {
     try {
       GoogleSignInAccount? googleUser = await googleSignIn.signIn();
@@ -20,14 +36,15 @@ class AuthService {
       AuthCredential credential = GoogleAuthProvider.credential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
       return await firebaseAuth.signInWithCredential(credential);
     } on Exception catch (e) {
-      print("Failed to sign in with Google: $e");
+      debugPrint("Failed to sign in with Google: $e");
     }
     return null;
   }
 
-  Future<void> signOut(BuildContext context)async{
+  Future<void> signOut(BuildContext context) async {
     await googleSignIn.signOut();
     await firebaseAuth.signOut();
+    if (!context.mounted) return;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
   }
 }

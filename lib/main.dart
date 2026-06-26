@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:quiz_shell/provider/app_state_provider.dart';
 import 'package:quiz_shell/provider/category_provider.dart';
 import 'package:quiz_shell/provider/quiz_provider.dart';
+import 'package:quiz_shell/service/auth_service.dart';
 import 'package:quiz_shell/service/hive_database.dart';
 import 'package:quiz_shell/theme/theme.dart';
 import 'package:quiz_shell/views/sign_in.dart';
@@ -37,21 +38,53 @@ class MyApp extends StatelessWidget {
             themeMode: appStateProvider.themeMode,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
-            home: StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Scaffold(body: Center(child: CircularProgressIndicator()));
-                }
-                if (snapshot.hasData) {
-                  return const HomePage();
-                }
-                return const LoginPage();
-              },
-            ),
+            home: const AuthGate(),
           );
         },
       ),
+    );
+  }
+}
+
+class AuthGate extends StatefulWidget {
+  const AuthGate({super.key});
+
+  @override
+  State<AuthGate> createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> {
+  late final Future<User?> _restoreSessionFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _restoreSessionFuture = AuthService().restoreSessionIfPossible();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<User?>(
+      future: _restoreSessionFuture,
+      builder: (context, restoreSnapshot) {
+        if (restoreSnapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+        }
+
+        return StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          initialData: FirebaseAuth.instance.currentUser,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Scaffold(body: Center(child: CircularProgressIndicator()));
+            }
+            if (snapshot.hasData) {
+              return const HomePage();
+            }
+            return const LoginPage();
+          },
+        );
+      },
     );
   }
 }

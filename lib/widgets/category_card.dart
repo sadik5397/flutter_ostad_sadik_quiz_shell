@@ -10,13 +10,14 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizPage(category: category))),
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          decoration: BoxDecoration(color: Color(0xfffeeafe), borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(color: colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(12), border: Border.all(color: colorScheme.primary.withValues(alpha: .25), width: 2)),
           width: 180,
           height: 120,
           child: Stack(
@@ -26,7 +27,11 @@ class CategoryCard extends StatelessWidget {
                 right: -16,
                 child: Text(
                   category.name[0],
-                  style: TextStyle(fontSize: 136, fontWeight: FontWeight.w100, color: Color(0xff230a94).withValues(alpha: .2)),
+                  style: TextStyle(
+                    fontSize: 136,
+                    fontWeight: FontWeight.w100,
+                    color: colorScheme.onSecondaryContainer.withValues(alpha: .1),
+                  ),
                 ),
               ),
               Align(
@@ -35,7 +40,7 @@ class CategoryCard extends StatelessWidget {
                   padding: EdgeInsets.all(16),
                   child: Text(
                     category.name,
-                    style: TextStyle(color: Color(0xff230a94), fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(color: colorScheme.onSecondaryContainer, fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 ),
               ),

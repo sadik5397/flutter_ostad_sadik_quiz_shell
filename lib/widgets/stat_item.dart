@@ -10,16 +10,24 @@ class StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12),
       child: Column(
         children: [
           Icon(icon, size: 28, color: color),
           SizedBox(height: 8),
-          Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+          Text(
+            label,
+            style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 12),
+          ),
           Text(
             value,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xff220c87)),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: colorScheme.primary,
+            ),
           ),
         ],
       ),

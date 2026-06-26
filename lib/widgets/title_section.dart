@@ -10,16 +10,28 @@ class TitleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: colorScheme.onSurface,
+          ),
+        ),
         if (showSeeAll)
           InkWell(
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizCategories())),
             child: Text(
               "See All",
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xff230a94)),
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.primary,
+              ),
             ),
           ),
       ],

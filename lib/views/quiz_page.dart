@@ -28,16 +28,18 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
+        backgroundColor: colorScheme.surface,
         title: Text("${widget.category.name} Quiz"),
         actions: [
           Container(
             margin: EdgeInsets.only(right: 16),
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             decoration: BoxDecoration(
-              border: Border.all(color: Color(0xff2200a5)),
+              border: Border.all(color: colorScheme.primary),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Consumer<QuizProvider>(
@@ -84,7 +86,7 @@ class _QuizPageState extends State<QuizPage> {
                             Text(
                               quizProvider.selectedAnswerIndex == quizProvider.questions[quizProvider.progress].answerIndex ? "Correct Answer" : "Incorrect Answer",
                               style: TextStyle(
-                                color: quizProvider.selectedAnswerIndex == quizProvider.questions[quizProvider.progress].answerIndex ? Colors.green.shade800 : Colors.red,
+                                color: quizProvider.selectedAnswerIndex == quizProvider.questions[quizProvider.progress].answerIndex ? Colors.green : colorScheme.error,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                               ),
@@ -96,20 +98,20 @@ class _QuizPageState extends State<QuizPage> {
                                 ? ElevatedButton(
                                     onPressed: () => quizProvider.prepareNextQuestion(categoryName: widget.category.name),
                                     style: ButtonStyle(
-                                      backgroundColor: WidgetStatePropertyAll(Color(0xff2200a6)),
+                                      backgroundColor: WidgetStatePropertyAll(colorScheme.primary),
                                       fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
-                                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12))),
+                                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                                     ),
                                     child: Text(
                                       "Next",
-                                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                      style: TextStyle(color: colorScheme.onPrimary, fontSize: 16, fontWeight: FontWeight.bold),
                                     ),
                                   )
                                 : OutlinedButton(
                                     onPressed: quizProvider.submitAnswer,
                                     style: ButtonStyle(
                                       fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
-                                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12))),
+                                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                                     ),
                                     child: Text("Submit", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                                   ),

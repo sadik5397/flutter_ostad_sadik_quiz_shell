@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_shell/theme/theme_padding.dart';
 import 'package:quiz_shell/views/home_page.dart';
 
 import '../service/database_service.dart';
@@ -14,8 +15,9 @@ class QuizResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16),
@@ -28,45 +30,45 @@ class QuizResult extends StatelessWidget {
                   Padding(padding: const EdgeInsets.symmetric(horizontal: 32), child: Image.asset("asset/congrats.png")),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
-                    child: CircleAvatar(radius: screenWidth * 0.12, backgroundColor: Colors.white, backgroundImage: NetworkImage(UserData.userImageUrl)),
+                    child: CircleAvatar(radius: screenWidth * 0.12, backgroundColor: colorScheme.surface, backgroundImage: NetworkImage(UserData.userImageUrl)),
                   ),
                 ],
               ),
               const SizedBox(height: 32),
-              const Text(
+              Text(
                 "Your Score",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black54),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: colorScheme.onSurfaceVariant),
               ),
               Text(
                 "$totalCorrect/$totalQuestions",
-                style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Color(0xff2200a6)),
+                style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: colorScheme.primary),
               ),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 "Congratulations!",
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xff2200a6)),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: colorScheme.primary),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 "Great job! You have done well",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.black45, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 16, color: colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 12),
               Container(
-                padding: EdgeInsets.all(6),
-                decoration: BoxDecoration(color: Color(0xfff6f4fc), borderRadius: BorderRadius.circular(12)),
+                padding: ThemePadding.all,
+                decoration: BoxDecoration(color: colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(12)),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   spacing: 10,
                   children: [
-                    CircleAvatar(radius: 16, backgroundColor: Color(0xfff4e2fa), foregroundColor: Colors.pinkAccent, child: Icon(Icons.diamond_outlined, size: 20)),
+                    CircleAvatar(radius: 16, backgroundColor: colorScheme.secondary, foregroundColor: colorScheme.onSecondary, child: Icon(Icons.diamond_outlined, size: 20)),
                     StreamBuilder<int>(
                       stream: DatabaseService().totalScoreStream,
                       builder: (context, asyncSnapshot) {
                         return Text(
                           asyncSnapshot.hasData ? asyncSnapshot.data.toString() : "0",
-                          style: TextStyle(color: Color(0xff220c87), fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: colorScheme.onSecondaryContainer, fontSize: 16, fontWeight: FontWeight.bold),
                         );
                       },
                     ),
@@ -78,13 +80,13 @@ class QuizResult extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (route) => false),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff2200a6),
+                    backgroundColor: colorScheme.primary,
                     minimumSize: const Size(double.infinity, 56),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Back to Home",
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: colorScheme.onPrimary, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

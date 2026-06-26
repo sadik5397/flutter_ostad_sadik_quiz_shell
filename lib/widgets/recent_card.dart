@@ -11,23 +11,40 @@ class RecentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return ListTile(
-      tileColor: Color(0xfff5f3fb),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12)),
-      title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: Text("Played on: $playedOn"),
+      tileColor: colorScheme.surfaceContainer,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      title: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.onSurface),
+      ),
+      subtitle: Text(
+        "Played on: $playedOn",
+        style: TextStyle(color: colorScheme.onSurfaceVariant),
+      ),
       leading: Container(
         height: 48,
         width: 48,
         alignment: Alignment.center,
         padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(color: Color(0xffe8e5f6), borderRadius: BorderRadius.circular(6)),
-        child: Text(gainedScore.toString(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff2b229c)),),
+        decoration: BoxDecoration(color: colorScheme.primaryContainer, borderRadius: BorderRadius.circular(6)),
+        child: Text(
+          gainedScore.toString(),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: colorScheme.onPrimaryContainer,
+          ),
+        ),
       ),
       trailing: Container(
         padding: EdgeInsets.all(6),
-        decoration: BoxDecoration(color: Color(0xffd9ebe0), borderRadius: BorderRadius.circular(6)),
-        child: Text("$totalCorrect / $totalAttempt", style: TextStyle(color: Colors.green.shade800, fontSize: 14),),
+        decoration: BoxDecoration(color: Colors.green.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),
+        child: Text(
+          "$totalCorrect / $totalAttempt",
+          style: TextStyle(color: Colors.green, fontSize: 14, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

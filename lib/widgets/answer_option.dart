@@ -11,22 +11,23 @@ class AnswerOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: showCorrectAnswer
-              ? Colors.green.shade50
+              ? Colors.green.withValues(alpha: 0.1)
               : isSelected
-              ? Color(0xffe2dff2)
-              : Color(0xfff5f5f5),
+              ? colorScheme.primaryContainer
+              : colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: showCorrectAnswer
-                ? Colors.green.shade800
+                ? Colors.green
                 : isSelected
-                ? Color(0xff3e2788)
+                ? colorScheme.primary
                 : Colors.transparent,
             width: 2,
           ),
@@ -36,15 +37,15 @@ class AnswerOption extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 16,
-              backgroundColor: Color(0xff3e2788).withValues(alpha: .15),
+              backgroundColor: colorScheme.primary.withValues(alpha: .15),
               child: Text(
                 serial,
                 style: TextStyle(
                   color: showCorrectAnswer
-                      ? Colors.green.shade800
+                      ? Colors.green
                       : isSelected
-                      ? Color(0xff3e2788)
-                      : Colors.black,
+                      ? colorScheme.onPrimaryContainer
+                      : colorScheme.onSurface,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -54,10 +55,10 @@ class AnswerOption extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 color: showCorrectAnswer
-                    ? Colors.green.shade800
+                    ? Colors.green
                     : isSelected
-                    ? Color(0xff3e2788)
-                    : Colors.black,
+                    ? colorScheme.onPrimaryContainer
+                    : colorScheme.onSurface,
               ),
             ),
           ],

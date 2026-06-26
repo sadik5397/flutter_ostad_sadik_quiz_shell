@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_shell/service/auth_service.dart';
 import 'package:quiz_shell/service/database_service.dart';
 import 'package:quiz_shell/service/user_data.dart';
+import 'package:quiz_shell/theme/theme.dart';
 import 'package:quiz_shell/widgets/podium_item.dart';
 import 'package:quiz_shell/widgets/ranked_item.dart';
 import 'package:quiz_shell/widgets/stat_item.dart';
@@ -17,17 +18,15 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: const Text("Leaderboard")),
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(backgroundColor: colorScheme.surface, title: const Text("Leaderboard")),
       body: StreamBuilder<QuerySnapshot>(
         stream: DatabaseService().allUsersStream,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text("No data available"));
-          }
+          if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) return Center(child: Text("No data available"));
 
           //users
           final List<DocumentSnapshot> users = snapshot.data!.docs;
@@ -58,7 +57,7 @@ class _LeaderboardState extends State<Leaderboard> {
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage("asset/stage.png"), fit: BoxFit.cover),
+                  image: DecorationImage(opacity: AppTheme.isDark(context) ? .1 : 1, image: AssetImage("asset/stage.png"), fit: BoxFit.cover),
                 ),
                 child: Column(
                   children: [
@@ -67,9 +66,27 @@ class _LeaderboardState extends State<Leaderboard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 12,
                       children: [
-                        PodiumItem(rank: 2, name: user2?["displayName"] ?? "", points: user2?["totalScore"] ?? 0, imageUrl: user2?["photo"] ?? "", color: Colors.purple),
-                        PodiumItem(rank: 1, name: user1?["displayName"] ?? "", points: user1?["totalScore"] ?? 0, imageUrl: user1?["photo"] ?? "", color: Colors.pink),
-                        PodiumItem(rank: 3, name: user3?["displayName"] ?? "", points: user3?["totalScore"] ?? 0, imageUrl: user3?["photo"] ?? "", color: Colors.orange),
+                        PodiumItem(
+                          rank: 2,
+                          name: user2?["displayName"] ?? "--",
+                          points: user2?["totalScore"] ?? 0,
+                          imageUrl: user2?["photo"] ?? UserData.placeholderImageUrl,
+                          color: Colors.purple,
+                        ),
+                        PodiumItem(
+                          rank: 1,
+                          name: user1?["displayName"] ?? "--",
+                          points: user1?["totalScore"] ?? 0,
+                          imageUrl: user1?["photo"] ?? UserData.placeholderImageUrl,
+                          color: Colors.pink,
+                        ),
+                        PodiumItem(
+                          rank: 3,
+                          name: user3?["displayName"] ?? "--",
+                          points: user3?["totalScore"] ?? 0,
+                          imageUrl: user3?["photo"] ?? UserData.placeholderImageUrl,
+                          color: Colors.orange,
+                        ),
                       ],
                     ),
                     SizedBox(height: 24),
@@ -96,7 +113,12 @@ class _LeaderboardState extends State<Leaderboard> {
                 itemBuilder: (context, index) {
                   Map<String, dynamic> user = rankedUsers[index].data() as Map<String, dynamic>;
                   bool isMyself = user["email"] == UserData.userEmail;
-                  return RankedItem(rank: index + 4, imageUrl: user["photo"] ?? "", name: user["displayName"] ?? "", points: user["totalScore"] ?? 0, isMyself: isMyself
+                  return RankedItem(
+                    rank: index + 4,
+                    imageUrl: user["photo"] ?? UserData.placeholderImageUrl,
+                    name: user["displayName"] ?? "",
+                    points: user["totalScore"] ?? 0,
+                    isMyself: isMyself,
                   );
                 },
               ),
