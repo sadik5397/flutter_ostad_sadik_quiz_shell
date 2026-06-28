@@ -3,17 +3,21 @@ import 'package:quiz_shell/service/database_service.dart';
 import 'package:quiz_shell/service/user_data.dart';
 import 'package:quiz_shell/views/profile_page.dart';
 
+import '../l10n/app_localizations.dart';
+
 class HomePageHeader extends StatelessWidget {
   const HomePageHeader({super.key});
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    
     return Row(
       spacing: 16,
       children: [
         //Profile Picture
         GestureDetector(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage())),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage())),
           child: Container(
             height: 72,
             width: 72,
@@ -30,11 +34,11 @@ class HomePageHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Hi, ${UserData.userName}",
+                "${l10n.hi}, ${UserData.userName}",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: colorScheme.onSurface),
               ),
               Text(
-                "Ready to play",
+                l10n.readyToPlay,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -46,7 +50,7 @@ class HomePageHeader extends StatelessWidget {
         ),
         //Points
         Container(
-          padding: EdgeInsets.all(6),
+          padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(color: colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(12)),
           child: Row(
             spacing: 10,
@@ -55,7 +59,7 @@ class HomePageHeader extends StatelessWidget {
                 radius: 16,
                 backgroundColor: colorScheme.secondary,
                 foregroundColor: colorScheme.onSecondary,
-                child: Icon(Icons.diamond_outlined, size: 20),
+                child: const Icon(Icons.diamond_outlined, size: 20),
               ),
               StreamBuilder<int>(
                 stream: DatabaseService().totalScoreStream,

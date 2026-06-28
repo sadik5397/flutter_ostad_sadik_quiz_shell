@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../views/quiz_categories.dart';
 
 class TitleSection extends StatelessWidget {
@@ -11,6 +12,8 @@ class TitleSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -24,9 +27,9 @@ class TitleSection extends StatelessWidget {
         ),
         if (showSeeAll)
           InkWell(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizCategories())),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizCategories())),
             child: Text(
-              "See All",
+              l10n.seeAll,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,

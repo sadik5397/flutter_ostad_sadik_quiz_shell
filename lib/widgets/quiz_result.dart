@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/theme/theme_padding.dart';
 import 'package:quiz_shell/views/home_page.dart';
 
@@ -16,11 +17,13 @@ class QuizResult extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               const Spacer(),
@@ -36,7 +39,7 @@ class QuizResult extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Text(
-                "Your Score",
+                l10n.yourScore,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: colorScheme.onSurfaceVariant),
               ),
               Text(
@@ -45,12 +48,12 @@ class QuizResult extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                "Congratulations!",
+                l10n.congratulations,
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: colorScheme.primary),
               ),
               const SizedBox(height: 8),
               Text(
-                "Great job! You have done well",
+                l10n.greatJob,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16, color: colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),
               ),
@@ -62,12 +65,12 @@ class QuizResult extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   spacing: 10,
                   children: [
-                    CircleAvatar(radius: 16, backgroundColor: colorScheme.secondary, foregroundColor: colorScheme.onSecondary, child: Icon(Icons.diamond_outlined, size: 20)),
+                    CircleAvatar(radius: 16, backgroundColor: colorScheme.secondary, foregroundColor: colorScheme.onSecondary, child: const Icon(Icons.diamond_outlined, size: 20)),
                     StreamBuilder<int>(
                       stream: DatabaseService().totalScoreStream,
                       builder: (context, asyncSnapshot) {
                         return Text(
-                          asyncSnapshot.hasData ? asyncSnapshot.data.toString() : "0",
+                          "${asyncSnapshot.hasData ? asyncSnapshot.data : 0} ${l10n.points}",
                           style: TextStyle(color: colorScheme.onSecondaryContainer, fontSize: 16, fontWeight: FontWeight.bold),
                         );
                       },
@@ -78,14 +81,14 @@ class QuizResult extends StatelessWidget {
               const Spacer(),
               SafeArea(
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (route) => false),
+                  onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomePage()), (route) => false),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorScheme.primary,
                     minimumSize: const Size(double.infinity, 56),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: Text(
-                    "Back to Home",
+                    l10n.backToHome,
                     style: TextStyle(color: colorScheme.onPrimary, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),

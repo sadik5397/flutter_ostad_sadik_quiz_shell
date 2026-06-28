@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz_shell/provider/app_state_provider.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/provider/category_provider.dart';
 import 'package:quiz_shell/service/database_service.dart';
 import 'package:quiz_shell/theme/theme_border_radius.dart';
 import 'package:quiz_shell/theme/theme_padding.dart';
 import 'package:quiz_shell/theme/theme_spacing.dart';
-import 'package:quiz_shell/views/admin_options.dart';
 import 'package:quiz_shell/views/leaderboard.dart';
 import 'package:quiz_shell/widgets/banner_card.dart';
 import 'package:quiz_shell/widgets/category_card.dart';
@@ -16,7 +15,6 @@ import 'package:quiz_shell/widgets/recent_card.dart';
 import 'package:quiz_shell/widgets/title_section.dart';
 
 import '../model/quiz_category_model.dart';
-import '../theme/theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,32 +33,25 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      floatingActionButton: Consumer<AppStateProvider>(
-        builder: (context, appStateProvider, child) {
-          return FloatingActionButton.extended(
-            onPressed: () => context.read<AppStateProvider>().toggleTheme(context),
-            label: Text("Switch Theme to ${AppTheme.isDark(context) ? "Light" : "Dark"}"),
-            icon: Icon(AppTheme.isDark(context) ? Icons.light_mode_rounded : Icons.dark_mode_rounded),
-          );
-        },
-      ),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async => await context.read<CategoryProvider>().loadQuizCategories(context),
           child: ListView(
             padding: ThemePadding.all,
             children: [
-              HomePageHeader(),
+              const HomePageHeader(),
               ThemeSpacing.vertical,
-              BannerCard(),
+              const BannerCard(),
               ThemeSpacing.verticalX2,
-              TitleSection(label: "Subject"),
+              TitleSection(label: l10n.subject),
               ThemeSpacing.vertical,
               Consumer<CategoryProvider>(
                 builder: (context, categoryProvider, child) => categoryProvider.allCategories.isEmpty
-                    ? LinearProgressIndicator()
+                    ? const LinearProgressIndicator()
                     : SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -74,25 +65,25 @@ class _HomePageState extends State<HomePage> {
               ),
               ThemeSpacing.vertical,
               ElevatedButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Leaderboard())),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Leaderboard())),
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(colorScheme.primary),
-                  fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
+                  fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 56)),
                   shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: ThemeBorderRadius.all)),
                 ),
                 child: Text(
-                  "Check Leaderboard",
+                  l10n.checkLeaderboard,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onPrimary),
                 ),
               ),
               ThemeSpacing.verticalX2,
-              TitleSection(label: "Recent", showSeeAll: false),
+              TitleSection(label: l10n.recent, showSeeAll: false),
               ThemeSpacing.vertical,
               StreamBuilder<QuerySnapshot>(
                 stream: DatabaseService().sessionHistoryStream,
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) return LinearProgressIndicator();
-                  if (!snapshot.hasData) return Text("No Quiz Played Yet");
+                  if (snapshot.connectionState == ConnectionState.waiting) return const LinearProgressIndicator();
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) return const Text("No Quiz Played Yet");
                   return Column(
                     children: snapshot.data!.docs.map((doc) {
                       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -110,16 +101,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              ThemeSpacing.verticalX2,
-              OutlinedButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminOptions())),
-                style: ButtonStyle(
-                  fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: ThemeBorderRadius.all)),
-                ),
-                child: Text("Admin Options", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
             ],
           ),
         ),

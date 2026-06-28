@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../widgets/title_section.dart';
-import 'add_question.dart';
-import 'add_question_via_api.dart';
-import 'added_questions.dart';
-import 'questions_from_api.dart';
+import 'manage_categories.dart';
 
 class AdminOptions extends StatelessWidget {
   const AdminOptions({super.key});
@@ -22,62 +17,16 @@ class AdminOptions extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TitleSection(label: "Quiz from Local", showSeeAll: false),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddQuestion())),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.primary,
-                      foregroundColor: colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text("Add Question"),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddedQuestions())),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text("View Questions"),
-                  ),
-                ),
-              ],
+            ElevatedButton(
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageCategories())),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
+                minimumSize: const Size(double.infinity, 60),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: const Text("MANAGE CATEGORIES & QUESTIONS", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ),
-            const SizedBox(height: 32),
-            TitleSection(label: "Quiz from API Hub", showSeeAll: false),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddQuestionViaApi())),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.primary,
-                      foregroundColor: colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text("Add Question"),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionsFromApi())),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text("View Questions"),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
           ],
         ),
       ),

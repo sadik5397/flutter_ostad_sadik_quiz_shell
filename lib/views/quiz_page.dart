@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/provider/quiz_provider.dart';
 import 'package:quiz_shell/utils/numeric_serial_to_abc.dart';
 import 'package:quiz_shell/widgets/answer_option.dart';
@@ -29,6 +30,8 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
@@ -36,15 +39,15 @@ class _QuizPageState extends State<QuizPage> {
         title: Text("${widget.category.name} Quiz"),
         actions: [
           Container(
-            margin: EdgeInsets.only(right: 16),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            margin: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             decoration: BoxDecoration(
               border: Border.all(color: colorScheme.primary),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Consumer<QuizProvider>(
               builder: (context, quizProvider, child) {
-                return Text("Score: ${quizProvider.obtainedMark}", style: TextStyle(fontWeight: FontWeight.w500));
+                return Text("${l10n.score}: ${quizProvider.obtainedMark}", style: const TextStyle(fontWeight: FontWeight.w500));
               },
             ),
           ),
@@ -53,7 +56,7 @@ class _QuizPageState extends State<QuizPage> {
       body: Consumer<QuizProvider>(
         builder: (context, quizProvider, child) {
           return quizProvider.isLoading
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : quizProvider.questions.isEmpty
               ? QuizNotAvailable(categoryName: widget.category.name)
               : quizProvider.isQuizOver
@@ -78,13 +81,13 @@ class _QuizPageState extends State<QuizPage> {
                           ),
                         ),
                       ),
-                      Expanded(child: SizedBox()),
+                      const Expanded(child: SizedBox()),
                       Column(
                         spacing: 16,
                         children: [
                           if (quizProvider.answerSubmitted)
                             Text(
-                              quizProvider.selectedAnswerIndex == quizProvider.questions[quizProvider.progress].answerIndex ? "Correct Answer" : "Incorrect Answer",
+                              quizProvider.selectedAnswerIndex == quizProvider.questions[quizProvider.progress].answerIndex ? l10n.correctAnswer : l10n.incorrectAnswer,
                               style: TextStyle(
                                 color: quizProvider.selectedAnswerIndex == quizProvider.questions[quizProvider.progress].answerIndex ? Colors.green : colorScheme.error,
                                 fontWeight: FontWeight.bold,
@@ -93,27 +96,27 @@ class _QuizPageState extends State<QuizPage> {
                             ),
                           SafeArea(
                             child: quizProvider.selectedAnswerIndex == null
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : quizProvider.answerSubmitted
                                 ? ElevatedButton(
                                     onPressed: () => quizProvider.prepareNextQuestion(categoryName: widget.category.name),
                                     style: ButtonStyle(
                                       backgroundColor: WidgetStatePropertyAll(colorScheme.primary),
-                                      fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
+                                      fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 56)),
                                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                                     ),
                                     child: Text(
-                                      "Next",
+                                      l10n.next,
                                       style: TextStyle(color: colorScheme.onPrimary, fontSize: 16, fontWeight: FontWeight.bold),
                                     ),
                                   )
                                 : OutlinedButton(
                                     onPressed: quizProvider.submitAnswer,
                                     style: ButtonStyle(
-                                      fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 56)),
+                                      fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 56)),
                                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                                     ),
-                                    child: Text("Submit", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                    child: Text(l10n.submit, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                                   ),
                           ),
                         ],

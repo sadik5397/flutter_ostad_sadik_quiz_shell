@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
 
 import '../service/auth_service.dart';
 
@@ -15,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: colorScheme.surface,
       body: Center(
@@ -24,12 +27,8 @@ class _LoginPageState extends State<LoginPage> {
             Icon(Icons.quiz, size: 100, color: colorScheme.primary),
             const SizedBox(height: 20),
             Text(
-              "Quiz Shell",
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: colorScheme.onSurface,
-              ),
+              l10n.appTitle,
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
             ),
             const SizedBox(height: 50),
             ElevatedButton.icon(
@@ -46,20 +45,15 @@ class _LoginPageState extends State<LoginPage> {
                       }
 
                       if (user == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Sign in failed")),
-                        );
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.signInFailed)));
                       }
 
                       setState(() {
                         _isSigningIn = false;
                       });
                     },
-              icon: Image.network(
-                'http://pngimg.com/uploads/google/google_PNG19635.png',
-                height: 24,
-              ),
-              label: Text(_isSigningIn ? "Signing in..." : "Sign in with Google"),
+              icon: Image.network('http://pngimg.com/uploads/google/google_PNG19635.png', height: 24),
+              label: Text(_isSigningIn ? l10n.signingIn : l10n.signInWithGoogle),
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorScheme.surface,
                 foregroundColor: colorScheme.onSurface,

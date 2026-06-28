@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:quiz_shell/model/quiz_ques_model.dart';
+import 'package:quiz_shell/service/api_service.dart';
 import 'package:quiz_shell/utils/numeric_serial_to_abc.dart';
 import 'package:quiz_shell/widgets/my_text_field.dart';
 
@@ -9,7 +8,10 @@ import '../widgets/option_field.dart';
 import '../widgets/section_container.dart';
 
 class AddQuestionViaApi extends StatefulWidget {
-  const AddQuestionViaApi({super.key});
+  const AddQuestionViaApi({super.key, required this.categoryId, this.question});
+
+  final int categoryId;
+  final QuizQuestion? question;
 
   @override
   State<AddQuestionViaApi> createState() => _AddQuestionViaApiState();
@@ -17,16 +19,30 @@ class AddQuestionViaApi extends StatefulWidget {
 
 class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController questionTitleController = TextEditingController();
-  final List<TextEditingController> optionControllers = List.generate(2, (_) => TextEditingController());
-  final TextEditingController markController = TextEditingController(text: "10");
+  late TextEditingController questionTitleController;
+  late List<TextEditingController> optionControllers;
+  late TextEditingController markController;
   int? currentAnswerIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    questionTitleController = TextEditingController(text: widget.question?.question);
+    markController = TextEditingController(text: (widget.question?.mark ?? 10).toString());
+    currentAnswerIndex = widget.question?.answerIndex;
+    
+    if (widget.question != null) {
+      optionControllers = widget.question!.options.map((e) => TextEditingController(text: e)).toList();
+    } else {
+      optionControllers = List.generate(2, (_) => TextEditingController());
+    }
+  }
 
   void addOption() {
     if (optionControllers.length < 10) {
       setState(() => optionControllers.add(TextEditingController()));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Maximum 10 options allowed")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Maximum 10 options allowed")));
     }
   }
 
@@ -43,14 +59,14 @@ class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
     }
   }
 
-  Future<void> addQuestion() async {
+  Future<void> submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (currentAnswerIndex == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please select the correct answer by tapping the radio button next to it"), backgroundColor: Colors.orange));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please select the correct answer"), backgroundColor: Colors.orange));
       return;
     }
 
-    Map<String, dynamic> questionAsJson = {
+    Map<String, dynamic> data = {
       "question": questionTitleController.text.trim(),
       "options": optionControllers.map((e) => e.text.trim()).toList(),
       "answerIndex": currentAnswerIndex,
@@ -58,30 +74,18 @@ class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
     };
 
     try {
-      String url = "https://sadiks-quiz-apihub.lovable.app/api/v1/categories/1/questions";
-      var response = await http.post(Uri.parse(url), body: jsonEncode(questionAsJson));
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        resetForm();
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Question saved successfully!"), backgroundColor: Colors.green));
+      if (widget.question == null) {
+        await ApiService.createQuestion(widget.categoryId, data);
       } else {
-        if (!mounted) return;
+        await ApiService.updateQuestion(widget.question!.id, data);
       }
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to save question. Status code: ${response.statusCode}"), backgroundColor: Colors.red));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Success!"), backgroundColor: Colors.green));
+      Navigator.pop(context, true);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error saving question: $e"), backgroundColor: Colors.red));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e"), backgroundColor: Colors.red));
     }
-  }
-
-  void resetForm() {
-    questionTitleController.clear();
-    for (var controller in optionControllers) {
-      controller.dispose();
-    }
-    optionControllers.clear();
-    optionControllers.addAll(List.generate(2, (_) => TextEditingController()));
-    markController.text = "10";
-    setState(() => currentAnswerIndex = null);
   }
 
   @override
@@ -101,9 +105,8 @@ class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
         backgroundColor: colorScheme.surface,
-        title: const Text("Add New Question"),
+        title: Text(widget.question == null ? "Add Question" : "Edit Question"),
         elevation: 0,
-        actions: [IconButton(onPressed: resetForm, icon: const Icon(Icons.refresh), tooltip: "Reset Form")],
       ),
       body: Form(
         key: _formKey,
@@ -170,13 +173,13 @@ class _AddQuestionViaApiState extends State<AddQuestionViaApi> {
               width: double.infinity,
               height: 55,
               child: ElevatedButton(
-                onPressed: addQuestion,
+                onPressed: submit,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorScheme.primary,
                   foregroundColor: colorScheme.onPrimary,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                child: const Text("SUBMIT QUESTION", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                child: Text(widget.question == null ? "SUBMIT QUESTION" : "UPDATE QUESTION", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(height: 32),
