@@ -92,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                         localeProvider.locale.languageCode == 'en' ? l10n.english : l10n.bangla,
                         style: TextStyle(color: colorScheme.onSurfaceVariant),
                       ),
-a                      leading: Icon(Icons.language, color: colorScheme.primary),
+                      leading: Icon(Icons.language, color: colorScheme.primary),
                       trailing: DropdownButton<String>(
                         value: localeProvider.locale.languageCode,
                         icon: const Icon(Icons.keyboard_arrow_down),
