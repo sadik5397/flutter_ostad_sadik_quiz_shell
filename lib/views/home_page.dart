@@ -7,6 +7,7 @@ import 'package:quiz_shell/service/database_service.dart';
 import 'package:quiz_shell/theme/theme_border_radius.dart';
 import 'package:quiz_shell/theme/theme_padding.dart';
 import 'package:quiz_shell/theme/theme_spacing.dart';
+import 'package:quiz_shell/views/chat_page.dart';
 import 'package:quiz_shell/views/leaderboard.dart';
 import 'package:quiz_shell/widgets/banner_card.dart';
 import 'package:quiz_shell/widgets/category_card.dart';
@@ -74,6 +75,23 @@ class _HomePageState extends State<HomePage> {
                 child: Text(
                   l10n.checkLeaderboard,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onPrimary),
+                ),
+              ),
+              ThemeSpacing.vertical,
+              OutlinedButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatPage())),
+                style: ButtonStyle(
+                  fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 56)),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: ThemeBorderRadius.all,
+                      side: BorderSide(color: colorScheme.primary),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  "Chat with AI",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.primary),
                 ),
               ),
               ThemeSpacing.verticalX2,

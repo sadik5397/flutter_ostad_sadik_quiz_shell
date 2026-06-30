@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_shell/provider/app_state_provider.dart';
 import 'package:quiz_shell/provider/category_provider.dart';
+import 'package:quiz_shell/provider/chat_provider.dart';
 import 'package:quiz_shell/provider/locale_provider.dart';
 import 'package:quiz_shell/provider/quiz_provider.dart';
 import 'package:quiz_shell/service/auth_service.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LocaleProvider()),
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => QuizProvider()),
+        ChangeNotifierProvider(create: (context) => ChatProvider()),
       ],
       child: Consumer2<AppStateProvider, LocaleProvider>(
         builder: (context, appStateProvider, localeProvider, child) {
