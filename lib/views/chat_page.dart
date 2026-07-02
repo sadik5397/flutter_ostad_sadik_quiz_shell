@@ -17,6 +17,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     context.read<ChatProvider>().scrollToBottom();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +30,10 @@ class _ChatPageState extends State<ChatPage> {
               builder: (context, chatProvider, child) {
                 return ListView.builder(
                   controller: chatProvider.scrollController,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   itemCount: chatProvider.messages.length,
-                  itemBuilder: (context, index) => ChatTile(message: chatProvider.messages[index]),
+                  itemBuilder: (context, index) =>
+                      ChatTile(message: chatProvider.messages[index]),
                 );
               },
             ),

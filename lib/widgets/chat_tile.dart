@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quiz_shell/model/chat_model.dart';
+import 'package:quiz_shell/widgets/typing_indicator.dart';
 
 class ChatTile extends StatelessWidget {
   const ChatTile({super.key, required this.message});
@@ -9,36 +10,86 @@ class ChatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isMyself = message.senderMyself;
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(color: isMyself ? Colors.transparent : colorScheme.surfaceContainer),
-      child: Row(
-        spacing: 16,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            radius: 18,
-            backgroundColor: isMyself ? colorScheme.primary : colorScheme.secondary,
-            child: Icon(isMyself ? Icons.person : Icons.auto_awesome, size: 20, color: isMyself ? colorScheme.onPrimary : colorScheme.onSecondary),
-          ),
-          Expanded(
-            child: Column(
+    final bool isMyself = message.senderMyself;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color bubbleColor = isMyself
+        ? colorScheme.primary
+        : colorScheme.surfaceContainerHighest;
+    final Color textColor = isMyself
+        ? colorScheme.onPrimary
+        : colorScheme.onSurface;
+    final Color timeColor = isMyself
+        ? colorScheme.onPrimary.withOpacity(0.75)
+        : colorScheme.onSurfaceVariant;
+    final BorderRadius radius = BorderRadius.only(
+      topLeft: const Radius.circular(18),
+      topRight: const Radius.circular(18),
+      bottomLeft: Radius.circular(isMyself ? 18 : 4),
+      bottomRight: Radius.circular(isMyself ? 4 : 18),
+    );
+
+    final bubble = Container(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.75,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(color: bubbleColor, borderRadius: radius),
+      child: message.isTyping
+          ? TypingIndicator(dotColor: textColor)
+          : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  isMyself ? "You" : "AI Assistant",
-                  style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.onSurface, fontSize: 14),
+                SelectableText(
+                  message.message,
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 15,
+                    height: 1.35,
+                  ),
                 ),
                 const SizedBox(height: 4),
-                SelectableText(message.message, style: TextStyle(color: colorScheme.onSurface, fontSize: 16, height: 1.5)),
-                const SizedBox(height: 8),
-                Text(DateFormat('hh:mm a').format(message.dateTime), style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 10)),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    message.dateTime == null
+                        ? ""
+                        : DateFormat('hh:mm a').format(message.dateTime!),
+                    style: TextStyle(color: timeColor, fontSize: 10),
+                  ),
+                ),
               ],
             ),
-          ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Row(
+        mainAxisAlignment: isMyself
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (!isMyself) ...[
+            CircleAvatar(
+              radius: 16,
+              backgroundColor: colorScheme.secondary,
+              child: Icon(
+                Icons.auto_awesome,
+                size: 18,
+                color: colorScheme.onSecondary,
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
+          Flexible(child: bubble),
+          if (isMyself) ...[
+            const SizedBox(width: 8),
+            CircleAvatar(
+              radius: 16,
+              backgroundColor: colorScheme.primary,
+              child: Icon(Icons.person, size: 18, color: colorScheme.onPrimary),
+            ),
+          ],
         ],
       ),
     );
