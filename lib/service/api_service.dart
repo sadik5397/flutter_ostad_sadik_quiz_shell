@@ -8,7 +8,7 @@ import '../model/quiz_ques_model.dart';
 class ApiService {
   static const String baseUrl = "https://sadiks-quiz-apihub.lovable.app/api/v1";
   static const String aiUrl = "https://openrouter.ai/api/v1/chat/completions";
-  static const String apiKey = "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";
+  static const String apiKey = "-----";
 
   // --- Categories ---
   static Future<List<QuizCategory>> getCategories() async {
