@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
-  const MyTextField({
-    super.key,
-    required this.controller,
-    required this.label,
-    this.showNumberKeyboardOnly = false,
-    this.validator,
-  });
+  const MyTextField({super.key, required this.controller, required this.label, this.showNumberKeyboardOnly = false, this.validator});
 
   final TextEditingController controller;
   final String label;

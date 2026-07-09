@@ -18,11 +18,7 @@ class QuestionCard extends StatelessWidget {
       ),
       child: Text(
         question,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-          color: colorScheme.onTertiaryContainer,
-        ),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: colorScheme.onTertiaryContainer),
       ),
     );
   }

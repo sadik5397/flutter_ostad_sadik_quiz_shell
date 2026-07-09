@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/service/hive_database.dart';
 import 'package:quiz_shell/widgets/question_preview.dart';
+import 'package:quiz_shell/widgets/quiz_loading_shimmer.dart';
 
 import '../model/quiz_ques_model.dart';
 
@@ -40,12 +42,13 @@ class _AddedQuestionsState extends State<AddedQuestions> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text("Locally Added Questions")),
+      appBar: AppBar(title: Text(l10n.locallyAddedQuestions)),
       body: allQuestions.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: QuizLoadingShimmer())
           : ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: allQuestions.length,
               itemBuilder: (context, index) => QuestionPreview(question: allQuestions[index], index: index),
             ),

@@ -17,17 +17,10 @@ class ProfileInfoTile extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              label,
-              style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
-            ),
+            Text(label, style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant)),
             Text(
               value,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: colorScheme.onSurface,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
             ),
           ],
         ),

@@ -6,9 +6,6 @@ class AppTheme {
 
   static ThemeData light = ThemeData(
     brightness: Brightness.light,
-    fontFamily: 'Rubik',
-    fontFamilyFallback: ['NotoSansBengali'],
-    textTheme: ThemeData.light().textTheme.apply(fontFamily: 'Rubik', fontFamilyFallback: ['NotoSansBengali']),
     useMaterial3: true,
     colorScheme: // LIGHT MODE COLOR SCHEME
     ColorScheme(
@@ -84,9 +81,6 @@ class AppTheme {
   static ThemeData dark = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
-    fontFamily: 'Rubik',
-    fontFamilyFallback: ['NotoSansBengali'],
-    textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'Rubik', fontFamilyFallback: ['NotoSansBengali']),
     colorScheme: ColorScheme(
       brightness: Brightness.dark,
 
@@ -157,9 +151,8 @@ class AppTheme {
     ),
   );
 
-  static void updateSystemUI(BuildContext context) => SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Theme.of(context).brightness),
-  );
+  static void updateSystemUI(BuildContext context) =>
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Theme.of(context).brightness));
 }
 
 // static ThemeData light = ThemeData(

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/quiz_ques_model.dart';
+import '../service/ai_service.dart';
 import '../service/database_service.dart';
 
 class QuizProvider with ChangeNotifier {
@@ -17,6 +18,9 @@ class QuizProvider with ChangeNotifier {
   List<QuizQuestion> questions = [];
   bool isLoading = false;
   bool isQuizOver = false;
+  // AI generation progress (0..aiQuestionsTotal while loading).
+  int aiQuestionsGenerated = 0;
+  int aiQuestionsTotal = 0;
 
   void setAnswer(int currentIndex) {
     if (selectedAnswerIndex == currentIndex) {
@@ -66,6 +70,8 @@ class QuizProvider with ChangeNotifier {
     questions = [];
     isQuizOver = false;
     isLoading = true;
+    aiQuestionsGenerated = 0;
+    aiQuestionsTotal = 0;
     notifyListeners();
     await loadAllQuestionsOfThisCategory(context, categoryId: categoryId);
   }
@@ -80,13 +86,55 @@ class QuizProvider with ChangeNotifier {
         List data = result["data"];
         allQuestionsOfThisCategory = data.map((item) => QuizQuestion.fromJson(item)).toList();
       } else {
-        if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Failed to load questions from server")));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Failed to load questions from server")));
+        }
       }
     } catch (e) {
       debugPrint("Error loading questions: $e");
     }
 
     questions = (List<QuizQuestion>.from(allQuestionsOfThisCategory)..shuffle()).take(5).toList();
+    isLoading = false;
+    notifyListeners();
+  }
+
+  //AI generated quiz (uses OpenRouter)
+  Future<void> initiateAiQuiz(BuildContext context, {required String topic}) async {
+    selectedAnswerIndex = null;
+    answerCorrect = false;
+    answerSubmitted = false;
+    obtainedMark = 0;
+    totalCorrect = 0;
+    progress = 0;
+    questions = [];
+    isQuizOver = false;
+    isLoading = true;
+    aiQuestionsGenerated = 0;
+    aiQuestionsTotal = 5;
+    notifyListeners();
+    await _loadAiQuestions(context, topic: topic);
+  }
+
+  Future<void> _loadAiQuestions(BuildContext context, {required String topic}) async {
+    try {
+      final List<QuizQuestion> aiQuestions = await AiService.generateQuizQuestions(
+        topic: topic,
+        count: 5,
+        onQuestionGenerated: (int generated, int total) {
+          aiQuestionsGenerated = generated;
+          aiQuestionsTotal = total;
+          notifyListeners();
+        },
+      );
+      questions = aiQuestions;
+    } catch (e) {
+      debugPrint("AI quiz generation failed: $e");
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to generate quiz: $e")));
+      }
+      questions = [];
+    }
     isLoading = false;
     notifyListeners();
   }

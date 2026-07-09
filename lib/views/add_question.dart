@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/utils/numeric_serial_to_abc.dart';
 import 'package:quiz_shell/widgets/my_text_field.dart';
 
@@ -21,10 +22,11 @@ class _AddQuestionState extends State<AddQuestion> {
   int? currentAnswerIndex;
 
   void addOption() {
+    final l10n = AppLocalizations.of(context)!;
     if (optionControllers.length < 10) {
       setState(() => optionControllers.add(TextEditingController()));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Maximum 10 options allowed")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.maxOptionsAllowed)));
     }
   }
 
@@ -42,9 +44,10 @@ class _AddQuestionState extends State<AddQuestion> {
   }
 
   Future<void> addQuestion() async {
+    final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
     if (currentAnswerIndex == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please select the correct answer by tapping the radio button next to it"), backgroundColor: Colors.orange));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.pleaseSelectCorrectAnswerLong), backgroundColor: Colors.orange));
       return;
     }
 
@@ -60,9 +63,10 @@ class _AddQuestionState extends State<AddQuestion> {
       await HiveDatabase.addQuestion(questionAsJson);
       resetForm();
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Question saved successfully!"), backgroundColor: Colors.green));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.questionSavedSuccessfully), backgroundColor: Colors.green));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error saving question: $e"), backgroundColor: Colors.red));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.errorSavingQuestion(e.toString())), backgroundColor: Colors.red));
     }
   }
 
@@ -90,13 +94,14 @@ class _AddQuestionState extends State<AddQuestion> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
         backgroundColor: colorScheme.surface,
-        title: const Text("Add New Question"),
+        title: Text(l10n.addNewQuestion),
         elevation: 0,
-        actions: [IconButton(onPressed: resetForm, icon: const Icon(Icons.refresh), tooltip: "Reset Form")],
+        actions: [IconButton(onPressed: resetForm, icon: const Icon(Icons.refresh), tooltip: l10n.resetForm)],
       ),
       body: Form(
         key: _formKey,
@@ -104,12 +109,12 @@ class _AddQuestionState extends State<AddQuestion> {
           padding: const EdgeInsets.all(16),
           children: [
             SectionContainer(
-              title: "The Question",
-              child: MyTextField(controller: questionTitleController, label: "Enter question title", validator: (value) => (value == null || value.isEmpty) ? "Enter question" : null),
+              title: l10n.theQuestion,
+              child: MyTextField(controller: questionTitleController, label: l10n.enterQuestionTitle, validator: (value) => (value == null || value.isEmpty) ? l10n.enterQuestion : null),
             ),
 
             SectionContainer(
-              title: "Answer Options",
+              title: l10n.answerOptions,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 12,
@@ -124,7 +129,7 @@ class _AddQuestionState extends State<AddQuestion> {
                         children: List.generate(optionControllers.length, (index) {
                           return OptionField(
                             controller: optionControllers[index],
-                            label: "Option ${numericSerialToAbc(index).toUpperCase()}",
+                            label: "${l10n.option} ${numericSerialToAbc(index).toUpperCase()}",
                             index: index,
                             onRemove: optionControllers.length > 2 ? () => removeOption(index) : null,
                           );
@@ -137,7 +142,7 @@ class _AddQuestionState extends State<AddQuestion> {
                     child: OutlinedButton.icon(
                       onPressed: addOption,
                       icon: const Icon(Icons.add),
-                      label: const Text("Add More Options"),
+                      label: Text(l10n.addMoreOptions),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: colorScheme.primary,
                         side: BorderSide(color: colorScheme.primary),
@@ -149,12 +154,12 @@ class _AddQuestionState extends State<AddQuestion> {
             ),
 
             SectionContainer(
-              title: "Misc.",
+              title: l10n.misc,
               child: MyTextField(
                 controller: markController,
-                label: "Mark for this question",
+                label: l10n.markForThisQuestion,
                 showNumberKeyboardOnly: true,
-                validator: (value) => (value == null || value.isEmpty) ? "Enter mark" : null,
+                validator: (value) => (value == null || value.isEmpty) ? l10n.enterMark : null,
               ),
             ),
 
@@ -169,7 +174,7 @@ class _AddQuestionState extends State<AddQuestion> {
                   foregroundColor: colorScheme.onPrimary,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                child: const Text("SUBMIT QUESTION", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                child: Text(l10n.submitQuestion, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(height: 32),

@@ -5,5 +5,7 @@ class UserData {
   static String userImageUrl = AuthService().currentUser?.photoURL ?? placeholderImageUrl;
   static String userName = AuthService().currentUser?.displayName ?? '--';
   static String userEmail = AuthService().currentUser?.email ?? '--';
+  static String userMobileNumber = '--';
+  static bool isSubscribed = false;
   static String userJoined = AuthService().currentUser?.metadata.creationTime.toString().split(" ").first ?? '--';
 }

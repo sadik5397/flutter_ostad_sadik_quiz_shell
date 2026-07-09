@@ -11,7 +11,7 @@ class HomePageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Row(
       spacing: 16,
       children: [
@@ -39,11 +39,7 @@ class HomePageHeader extends StatelessWidget {
               ),
               Text(
                 l10n.readyToPlay,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.onSurfaceVariant,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorScheme.onSurfaceVariant),
               ),
             ],
           ),
@@ -55,22 +51,13 @@ class HomePageHeader extends StatelessWidget {
           child: Row(
             spacing: 10,
             children: [
-              CircleAvatar(
-                radius: 16,
-                backgroundColor: colorScheme.secondary,
-                foregroundColor: colorScheme.onSecondary,
-                child: const Icon(Icons.diamond_outlined, size: 20),
-              ),
+              CircleAvatar(radius: 16, backgroundColor: colorScheme.secondary, foregroundColor: colorScheme.onSecondary, child: const Icon(Icons.diamond_outlined, size: 20)),
               StreamBuilder<int>(
                 stream: DatabaseService().totalScoreStream,
                 builder: (context, asyncSnapshot) {
                   return Text(
                     asyncSnapshot.hasData ? asyncSnapshot.data.toString() : "0",
-                    style: TextStyle(
-                      color: colorScheme.onSecondaryContainer,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(color: colorScheme.onSecondaryContainer, fontSize: 16, fontWeight: FontWeight.bold),
                   );
                 },
               ),

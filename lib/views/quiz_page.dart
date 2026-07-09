@@ -9,12 +9,18 @@ import 'package:quiz_shell/widgets/quiz_not_available.dart';
 import 'package:quiz_shell/widgets/quiz_progress.dart';
 
 import '../model/quiz_category_model.dart';
+import '../widgets/quiz_loading_view.dart';
 import '../widgets/quiz_result.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({super.key, required this.category});
+  const QuizPage({super.key, this.category, this.aiTopic});
 
-  final QuizCategory category;
+  final QuizCategory? category;
+  final String? aiTopic;
+
+  bool get isAiMode => aiTopic != null;
+
+  String get displayName => aiTopic ?? category?.name ?? 'Quiz';
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -24,19 +30,24 @@ class _QuizPageState extends State<QuizPage> {
   @override
   void initState() {
     super.initState();
-    context.read<QuizProvider>().initiate(context, categoryId: widget.category.id);
+    final QuizProvider provider = context.read<QuizProvider>();
+    if (widget.isAiMode) {
+      provider.initiateAiQuiz(context, topic: widget.aiTopic!);
+    } else {
+      provider.initiate(context, categoryId: widget.category!.id);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
-    
+    final String title = widget.isAiMode ? "AI • ${widget.displayName}" : "${widget.displayName} ${l10n.quiz}";
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
         backgroundColor: colorScheme.surface,
-        title: Text("${widget.category.name} Quiz"),
+        title: Text(title),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 16),
@@ -56,9 +67,9 @@ class _QuizPageState extends State<QuizPage> {
       body: Consumer<QuizProvider>(
         builder: (context, quizProvider, child) {
           return quizProvider.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? QuizLoadingView(isAiMode: widget.isAiMode, generated: quizProvider.aiQuestionsGenerated, total: quizProvider.aiQuestionsTotal, displayName: widget.displayName)
               : quizProvider.questions.isEmpty
-              ? QuizNotAvailable(categoryName: widget.category.name)
+              ? QuizNotAvailable(categoryName: widget.displayName)
               : quizProvider.isQuizOver
               ? QuizResult(totalQuestions: quizProvider.questions.length, totalCorrect: quizProvider.totalCorrect, obtainedMark: quizProvider.obtainedMark)
               : Padding(
@@ -66,22 +77,29 @@ class _QuizPageState extends State<QuizPage> {
                   child: Column(
                     spacing: 32,
                     children: [
-                      QuizProgress(currentProgress: quizProvider.progress + 1, totalCount: quizProvider.questions.length),
+                      QuizProgress(
+                        currentProgress: quizProvider.progress + 1,
+                        totalCount: quizProvider.questions.length,
+                        onTimerEnd: () => quizProvider.prepareNextQuestion(categoryName: widget.displayName),
+                      ),
                       QuestionCard(question: quizProvider.questions[quizProvider.progress].question),
-                      Column(
-                        spacing: 12,
-                        children: List.generate(
-                          quizProvider.questions[quizProvider.progress].options.length,
-                          (currentIndex) => AnswerOption(
-                            option: quizProvider.questions[quizProvider.progress].options[currentIndex],
-                            serial: numericSerialToAbc(currentIndex),
-                            isSelected: quizProvider.selectedAnswerIndex == currentIndex,
-                            onTap: quizProvider.answerSubmitted ? null : () => quizProvider.setAnswer(currentIndex),
-                            showCorrectAnswer: quizProvider.questions[quizProvider.progress].answerIndex == currentIndex && quizProvider.answerSubmitted,
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            spacing: 12,
+                            children: List.generate(
+                              quizProvider.questions[quizProvider.progress].options.length,
+                              (currentIndex) => AnswerOption(
+                                option: quizProvider.questions[quizProvider.progress].options[currentIndex],
+                                serial: numericSerialToAbc(currentIndex),
+                                isSelected: quizProvider.selectedAnswerIndex == currentIndex,
+                                onTap: quizProvider.answerSubmitted ? null : () => quizProvider.setAnswer(currentIndex),
+                                showCorrectAnswer: quizProvider.questions[quizProvider.progress].answerIndex == currentIndex && quizProvider.answerSubmitted,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                      const Expanded(child: SizedBox()),
                       Column(
                         spacing: 16,
                         children: [
@@ -99,7 +117,7 @@ class _QuizPageState extends State<QuizPage> {
                                 ? const SizedBox()
                                 : quizProvider.answerSubmitted
                                 ? ElevatedButton(
-                                    onPressed: () => quizProvider.prepareNextQuestion(categoryName: widget.category.name),
+                                    onPressed: () => quizProvider.prepareNextQuestion(categoryName: widget.displayName),
                                     style: ButtonStyle(
                                       backgroundColor: WidgetStatePropertyAll(colorScheme.primary),
                                       fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 56)),

@@ -5,35 +5,21 @@ import 'package:quiz_shell/model/chat_model.dart';
 import 'package:quiz_shell/service/api_service.dart';
 
 class ChatProvider with ChangeNotifier {
-  ChatMessage welcomeMsg = ChatMessage(
-    message: "Hello! How can I help you today?",
-    dateTime: DateTime.now().subtract(Duration(seconds: 3)),
-    senderMyself: false,
-  );
+  ChatMessage welcomeMsg = ChatMessage(message: "Hello! How can I help you today?", dateTime: DateTime.now().subtract(Duration(seconds: 3)), senderMyself: false);
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
 
   late List<ChatMessage> messages = [welcomeMsg];
 
-  static const Duration _typewriterDelay = Duration(milliseconds: 35);
+  static const Duration _typewriterDelay = Duration(milliseconds: 50);
 
-  static final ChatMessage _typingIndicator = ChatMessage(
-    message: "",
-    dateTime: null,
-    senderMyself: false,
-    isTyping: true,
-  );
+  static final ChatMessage _typingIndicator = ChatMessage(message: "", dateTime: null, senderMyself: false, isTyping: true);
 
   void scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (scrollController.hasClients) {
-        scrollController.animateTo(
-          scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeOut,
-        );
+        scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
       }
-      notifyListeners();
     });
   }
 
@@ -42,9 +28,7 @@ class ChatProvider with ChangeNotifier {
     controller.clear();
     notifyListeners();
     scrollToBottom();
-    messages.add(
-      ChatMessage(message: msg, dateTime: DateTime.now(), senderMyself: true),
-    );
+    messages.add(ChatMessage(message: msg, dateTime: DateTime.now(), senderMyself: true));
     messages.add(_typingIndicator);
     notifyListeners();
     scrollToBottom();
@@ -53,45 +37,52 @@ class ChatProvider with ChangeNotifier {
 
   //get reply
   Future<void> getResponse(String msg) async {
-    String? response = await ApiService.getResponseFromAI(msg);
-    messages.removeWhere((m) => m.isTyping == true);
-    if (response == null) {
-      notifyListeners();
-      return;
-    }
-    final aiDateTime = DateTime.now();
-    final aiMessage = ChatMessage(
-      message: "",
-      dateTime: aiDateTime,
-      senderMyself: false,
-    );
-    final int messageIdx = messages.length;
-    messages.add(aiMessage);
-    notifyListeners();
-    scrollToBottom();
-    _streamTypewriter(messageIdx, aiDateTime, response);
-  }
+    try {
+      String? response = await ApiService.getResponseFromAI(msg);
+      messages.removeWhere((m) => m.isTyping == true);
 
-  //word-by-word typewriter effect
-  Future<void> _streamTypewriter(
-    int messageIdx,
-    DateTime dateTime,
-    String fullText,
-  ) async {
-    final List<String> words = fullText.split(' ');
-    final StringBuffer buffer = StringBuffer();
-    for (int i = 0; i < words.length; i++) {
-      if (i > 0) buffer.write(' ');
-      buffer.write(words[i]);
-      // Bail if the message was removed (e.g., list got reset externally)
-      if (messageIdx < 0 || messageIdx >= messages.length) return;
-      messages[messageIdx] = ChatMessage(
-        message: buffer.toString(),
-        dateTime: dateTime,
-        senderMyself: false,
-      );
+      if (response == null || response.isEmpty) {
+        notifyListeners();
+        return;
+      }
+
+      final aiDateTime = DateTime.now();
+      ChatMessage aiMessage = ChatMessage(message: "", dateTime: aiDateTime, senderMyself: false);
+      messages.add(aiMessage);
       notifyListeners();
       scrollToBottom();
+
+      await _streamTypewriter(aiMessage, aiDateTime, response);
+    } catch (e) {
+      messages.removeWhere((m) => m.isTyping == true);
+      messages.add(ChatMessage(message: "Sorry, I encountered an error. Please try again.", dateTime: DateTime.now(), senderMyself: false));
+      notifyListeners();
+      scrollToBottom();
+    }
+  }
+
+  // Word-by-word typewriter effect for a smoother experience
+  Future<void> _streamTypewriter(ChatMessage aiMessageObj, DateTime dateTime, String fullText) async {
+    ChatMessage currentAiMessage = aiMessageObj;
+    List<String> words = fullText.split(' ');
+    String displayedText = "";
+
+    for (int i = 0; i < words.length; i++) {
+      displayedText += (i == 0 ? "" : " ") + words[i];
+
+      // Find the current index of our message object (it might have shifted)
+      int idx = messages.indexOf(currentAiMessage);
+      if (idx == -1) return; // Message was removed from list
+
+      currentAiMessage = ChatMessage(message: displayedText, dateTime: dateTime, senderMyself: false);
+
+      messages[idx] = currentAiMessage;
+      notifyListeners();
+
+      // Scroll to maintain focus on new text
+      scrollToBottom();
+
+      // Small delay between words
       await Future.delayed(_typewriterDelay);
     }
   }

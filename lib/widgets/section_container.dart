@@ -15,11 +15,7 @@ class SectionContainer extends StatelessWidget {
           padding: const EdgeInsets.only(left: 4, bottom: 8),
           child: Text(
             title,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: colorScheme.onSurfaceVariant,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onSurfaceVariant),
           ),
         ),
         Card(
@@ -30,10 +26,7 @@ class SectionContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(color: colorScheme.outlineVariant),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: child,
-          ),
+          child: Padding(padding: const EdgeInsets.all(16.0), child: child),
         ),
         const SizedBox(height: 20),
       ],

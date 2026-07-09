@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/theme/theme_padding.dart';
-import 'package:quiz_shell/views/home_page.dart';
+import 'package:quiz_shell/views/main_shell.dart';
 
 import '../service/database_service.dart';
 import '../service/user_data.dart';
@@ -18,7 +18,7 @@ class QuizResult extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       backgroundColor: colorScheme.surface,
       body: SafeArea(
@@ -81,7 +81,7 @@ class QuizResult extends StatelessWidget {
               const Spacer(),
               SafeArea(
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomePage()), (route) => false),
+                  onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainShell()), (route) => false),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorScheme.primary,
                     minimumSize: const Size(double.infinity, 56),

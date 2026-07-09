@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:quiz_shell/widgets/quiz_timer.dart';
 
 class QuizProgress extends StatelessWidget {
-  const QuizProgress({super.key, required this.currentProgress, required this.totalCount});
+  const QuizProgress({super.key, required this.currentProgress, required this.totalCount, this.onTimerEnd});
 
   final int currentProgress;
   final int totalCount;
+  final VoidCallback? onTimerEnd;
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +20,22 @@ class QuizProgress extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Questions", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                const Text("Questions", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
                 Row(
                   children: [
                     Text(
                       currentProgress.toString(),
-                      style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.pinkAccent),
+                      style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.pinkAccent),
                     ),
-                    Text("/$totalCount", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+                    Text("/$totalCount", style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ],
             ),
-            QuizTimer(key: ValueKey(currentProgress)),
+            QuizTimer(key: ValueKey(currentProgress), onTimerEnd: onTimerEnd),
           ],
         ),
-        LinearProgressIndicator(value: currentProgress / totalCount, backgroundColor: colorScheme.surfaceContainerHigh,),
+        LinearProgressIndicator(value: currentProgress / totalCount, backgroundColor: colorScheme.surfaceContainerHigh),
       ],
     );
   }

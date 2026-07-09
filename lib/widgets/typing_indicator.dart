@@ -10,12 +10,8 @@ class TypingIndicator extends StatefulWidget {
   State<TypingIndicator> createState() => _TypingIndicatorState();
 }
 
-class _TypingIndicatorState extends State<TypingIndicator>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 900),
-  )..repeat();
+class _TypingIndicatorState extends State<TypingIndicator> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 900))..repeat();
 
   @override
   void dispose() {
@@ -25,8 +21,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final Color color =
-        widget.dotColor ?? Theme.of(context).colorScheme.onSurface;
+    final Color color = widget.dotColor ?? Theme.of(context).colorScheme.onSurface;
     return SizedBox(
       height: 18,
       child: Row(
@@ -40,18 +35,13 @@ class _TypingIndicatorState extends State<TypingIndicator>
               builder: (context, _) {
                 final double progress = (_controller.value - (i * 0.2)) % 1.0;
                 final double clamped = progress < 0 ? progress + 1 : progress;
-                final double bounce = (clamped < 0.5
-                    ? clamped * 2
-                    : (1 - clamped) * 2);
+                final double bounce = (clamped < 0.5 ? clamped * 2 : (1 - clamped) * 2);
                 return Transform.translate(
                   offset: Offset(0, -bounce * 6),
                   child: Container(
                     width: widget.size,
                     height: widget.size,
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.85),
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: BoxDecoration(color: color.withValues(alpha: 0.85), shape: BoxShape.circle),
                   ),
                 );
               },

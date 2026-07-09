@@ -17,17 +17,10 @@ class StatItem extends StatelessWidget {
         children: [
           Icon(icon, size: 28, color: color),
           SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 12),
-          ),
+          Text(label, style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 12)),
           Text(
             value,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: colorScheme.primary,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: colorScheme.primary),
           ),
         ],
       ),

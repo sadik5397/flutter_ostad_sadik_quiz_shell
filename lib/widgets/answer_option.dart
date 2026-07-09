@@ -50,15 +50,17 @@ class AnswerOption extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              option,
-              style: TextStyle(
-                fontSize: 16,
-                color: showCorrectAnswer
-                    ? Colors.green
-                    : isSelected
-                    ? colorScheme.onPrimaryContainer
-                    : colorScheme.onSurface,
+            Expanded(
+              child: Text(
+                option,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: showCorrectAnswer
+                      ? Colors.green
+                      : isSelected
+                      ? colorScheme.onPrimaryContainer
+                      : colorScheme.onSurface,
+                ),
               ),
             ),
           ],

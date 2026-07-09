@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/provider/chat_provider.dart';
 
 class ChatInputField extends StatelessWidget {
@@ -7,9 +8,8 @@ class ChatInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme colorScheme = Theme
-        .of(context)
-        .colorScheme;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -32,7 +32,7 @@ class ChatInputField extends StatelessWidget {
                     return TextField(
                       controller: chatProvider.controller,
                       maxLines: null,
-                      decoration: const InputDecoration(hintText: "Message...", border: InputBorder.none),
+                      decoration: InputDecoration(hintText: l10n.messageHint, border: InputBorder.none),
                     );
                   },
                 ),

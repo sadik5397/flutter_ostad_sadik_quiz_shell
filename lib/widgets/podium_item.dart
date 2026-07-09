@@ -26,21 +26,14 @@ class PodiumItem extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: color, width: 2),
                 ),
-                child: CircleAvatar(
-                  radius: rank == 1 ? 50 : 40,
-                  backgroundImage: NetworkImage(imageUrl),
-                ),
+                child: CircleAvatar(radius: rank == 1 ? 50 : 40, backgroundImage: NetworkImage(imageUrl)),
               ),
               CircleAvatar(
                 radius: 16,
                 backgroundColor: color,
                 child: Text(
                   rank.toString(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
                 ),
               ),
             ],
@@ -49,11 +42,7 @@ class PodiumItem extends StatelessWidget {
           Text(
             name,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: colorScheme.onSurface,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: colorScheme.onSurface),
           ),
           SizedBox(height: 4),
           Container(
@@ -61,10 +50,7 @@ class PodiumItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: colorScheme.secondaryContainer,
               borderRadius: BorderRadius.circular(36),
-              border: Border.all(
-                color: colorScheme.onSecondaryContainer.withValues(alpha: .25),
-                width: 1,
-              ),
+              border: Border.all(color: colorScheme.onSecondaryContainer.withValues(alpha: .25), width: 1),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -73,11 +59,7 @@ class PodiumItem extends StatelessWidget {
                 Icon(Icons.diamond_outlined, size: 16, color: colorScheme.onSecondaryContainer),
                 Text(
                   points.toString(),
-                  style: TextStyle(
-                    color: colorScheme.onSecondaryContainer,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(color: colorScheme.onSecondaryContainer, fontSize: 14, fontWeight: FontWeight.bold),
                 ),
               ],
             ),

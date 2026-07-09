@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
+import 'package:quiz_shell/theme/theme_border_radius.dart';
 import 'package:quiz_shell/views/quiz_categories.dart';
 
 class BannerCard extends StatelessWidget {
@@ -7,31 +9,32 @@ class BannerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.maxFinite,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: ThemeBorderRadius.all,
         image: DecorationImage(image: AssetImage("asset/card_bg.png"), fit: BoxFit.cover),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Play and Win",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            l10n.playAndWin,
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           Text(
-            "Start a quiz now and enjoy",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+            l10n.startQuizNow,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
           ),
-          SizedBox(height: 18),
+          const SizedBox(height: 18),
           ElevatedButton(
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizCategories())),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizCategories())),
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(colorScheme.onPrimary),
-              shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(10))),
-              padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
+              shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+              padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -39,7 +42,7 @@ class BannerCard extends StatelessWidget {
               spacing: 6,
               children: [
                 Text(
-                  "Get Started",
+                  l10n.getStarted,
                   style: TextStyle(color: colorScheme.primary, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Icon(Icons.arrow_forward_ios_rounded, color: colorScheme.primary),

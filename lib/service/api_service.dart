@@ -8,7 +8,7 @@ import '../model/quiz_ques_model.dart';
 class ApiService {
   static const String baseUrl = "https://sadiks-quiz-apihub.lovable.app/api/v1";
   static const String aiUrl = "https://openrouter.ai/api/v1/chat/completions";
-  static const String apiKey = "-----";
+  static const String apiKey = "";
 
   // --- Categories ---
   static Future<List<QuizCategory>> getCategories() async {
@@ -73,7 +73,7 @@ class ApiService {
   }
 
   // --- AI Response ---
-  static Future<String>? getResponseFromAI(String msg) async {
+  static Future<String?> getResponseFromAI(String msg) async {
     final response = await http.post(
       Uri.parse(aiUrl),
       headers: {"Content-Type": "application/json", "Authorization": "Bearer $apiKey"},
@@ -86,10 +86,10 @@ class ApiService {
       }),
     );
     if (response.statusCode != 200) {
-      throw Exception("Failed to update question");
+      throw Exception("AI service error: ${response.statusCode}");
     } else {
       final result = jsonDecode(response.body);
-      return result["choices"][0]["message"]["content"].toString();
+      return result["choices"]?[0]?["message"]?["content"]?.toString();
     }
   }
 }

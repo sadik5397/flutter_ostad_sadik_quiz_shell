@@ -6,6 +6,7 @@ import 'package:quiz_shell/service/database_service.dart';
 import 'package:quiz_shell/service/user_data.dart';
 import 'package:quiz_shell/theme/theme.dart';
 import 'package:quiz_shell/widgets/podium_item.dart';
+import 'package:quiz_shell/widgets/quiz_loading_shimmer.dart';
 import 'package:quiz_shell/widgets/ranked_item.dart';
 import 'package:quiz_shell/widgets/stat_item.dart';
 
@@ -21,21 +22,18 @@ class _LeaderboardState extends State<Leaderboard> {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: colorScheme.surface,
-        title: Text(l10n.leaderboard),
-      ),
+      appBar: AppBar(backgroundColor: colorScheme.surface, title: Text(l10n.leaderboard)),
       body: StreamBuilder<QuerySnapshot>(
         stream: DatabaseService().allUsersStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: QuizLoadingShimmer());
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text("No data available"));
+            return Center(child: Text(l10n.noDataAvailable));
           }
 
           //users
@@ -67,11 +65,7 @@ class _LeaderboardState extends State<Leaderboard> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    opacity: AppTheme.isDark(context) ? .1 : 1,
-                    image: const AssetImage("asset/stage.png"),
-                    fit: BoxFit.cover,
-                  ),
+                  image: DecorationImage(opacity: AppTheme.isDark(context) ? .1 : 1, image: const AssetImage("asset/stage.png"), fit: BoxFit.cover),
                 ),
                 child: Column(
                   children: [

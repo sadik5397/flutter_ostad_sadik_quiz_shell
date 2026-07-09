@@ -10,14 +10,14 @@ class QuizNotAvailable extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: 12,
         children: [
           Icon(Icons.warning_amber_outlined, size: 110, color: colorScheme.error),
-          Text("${categoryName} ${l10n.quizNotAvailable}"),
+          Text("$categoryName ${l10n.quizNotAvailable}"),
         ],
       ),
     );

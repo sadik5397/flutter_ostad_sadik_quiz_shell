@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class QuizTimer extends StatefulWidget {
-  const QuizTimer({super.key});
+  const QuizTimer({super.key, this.onTimerEnd});
+
+  final VoidCallback? onTimerEnd;
 
   @override
   State<QuizTimer> createState() => _QuizTimerState();
 }
 
 class _QuizTimerState extends State<QuizTimer> {
-  int totalSeconds = 60;
+  int totalSeconds = 20;
   late int remainingSecond;
 
   @override
@@ -19,10 +21,14 @@ class _QuizTimerState extends State<QuizTimer> {
   }
 
   void startTimer() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     setState(() => remainingSecond--);
-    if (remainingSecond > 0) startTimer();
+    if (remainingSecond > 0) {
+      startTimer();
+    } else {
+      widget.onTimerEnd?.call();
+    }
   }
 
   @override
@@ -37,15 +43,12 @@ class _QuizTimerState extends State<QuizTimer> {
           child: CircularProgressIndicator(
             value: remainingSecond / totalSeconds,
             backgroundColor: colorScheme.outlineVariant,
-            color: remainingSecond < 10 ? colorScheme.error : colorScheme.primary,
+            color: remainingSecond < 5 ? colorScheme.error : colorScheme.primary,
           ),
         ),
         Text(
           "00:${remainingSecond < 10 ? '0' : ''}$remainingSecond",
-          style: TextStyle(
-            color: remainingSecond < 10 ? colorScheme.error : colorScheme.onSurface,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: remainingSecond < 5 ? colorScheme.error : colorScheme.onSurface, fontWeight: FontWeight.bold),
         ),
       ],
     );

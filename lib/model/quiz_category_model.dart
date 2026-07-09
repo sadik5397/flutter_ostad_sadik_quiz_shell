@@ -6,7 +6,7 @@ class QuizCategory {
   QuizCategory({required this.id, required this.name, required this.description});
 
   factory QuizCategory.fromJson(Map<String, dynamic> json) {
-    return QuizCategory(id: json['id'] ?? 0, name: json['name'] ?? '', description: json['description'] ??'');
+    return QuizCategory(id: json['id'] ?? 0, name: json['name'] ?? '', description: json['description'] ?? '');
   }
 
   Map<String, dynamic> toJson() {

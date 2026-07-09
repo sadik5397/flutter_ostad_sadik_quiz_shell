@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/provider/category_provider.dart';
 import 'package:quiz_shell/service/database_service.dart';
+import 'package:quiz_shell/theme/theme.dart';
 import 'package:quiz_shell/theme/theme_border_radius.dart';
 import 'package:quiz_shell/theme/theme_padding.dart';
 import 'package:quiz_shell/theme/theme_spacing.dart';
 import 'package:quiz_shell/views/chat_page.dart';
-import 'package:quiz_shell/views/leaderboard.dart';
 import 'package:quiz_shell/widgets/banner_card.dart';
 import 'package:quiz_shell/widgets/category_card.dart';
 import 'package:quiz_shell/widgets/home_page_header.dart';
@@ -16,6 +16,9 @@ import 'package:quiz_shell/widgets/recent_card.dart';
 import 'package:quiz_shell/widgets/title_section.dart';
 
 import '../model/quiz_category_model.dart';
+import '../widgets/ai_quiz_card.dart';
+import '../widgets/ai_quiz_card_shimmer.dart';
+import '../widgets/category_card_shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -52,34 +55,44 @@ class _HomePageState extends State<HomePage> {
               ThemeSpacing.vertical,
               Consumer<CategoryProvider>(
                 builder: (context, categoryProvider, child) => categoryProvider.allCategories.isEmpty
-                    ? const LinearProgressIndicator()
+                    ? SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          spacing: ThemeSpacing.value / 2,
+                          children: <Widget>[
+                            // AiQuizCard's slot also gets a shimmer
+                            // placeholder of identical size so the row
+                            // looks uniform while categories load.
+                            AiQuizCardShimmer(),
+                            const CategoryCardShimmer(),
+                            const CategoryCardShimmer(),
+                            const CategoryCardShimmer(),
+                            const CategoryCardShimmer(),
+                          ],
+                        ),
+                      )
                     : SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          spacing: ThemeSpacing.value,
-                          children: List.generate(categoryProvider.allCategories.length, (index) {
-                            QuizCategory cat = categoryProvider.allCategories[index];
-                            return CategoryCard(category: cat);
-                          }),
+                          spacing: ThemeSpacing.value / 2,
+                          children: [
+                            const AiQuizCard(),
+                            ...List.generate(categoryProvider.allCategories.length, (index) {
+                              QuizCategory cat = categoryProvider.allCategories[index];
+                              return CategoryCard(category: cat);
+                            }),
+                          ],
                         ),
                       ),
               ),
-              ThemeSpacing.vertical,
-              ElevatedButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Leaderboard())),
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(colorScheme.primary),
-                  fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 56)),
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: ThemeBorderRadius.all)),
-                ),
-                child: Text(
-                  l10n.checkLeaderboard,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onPrimary),
-                ),
-              ),
-              ThemeSpacing.vertical,
-              OutlinedButton(
+              ThemeSpacing.verticalHalf,
+              OutlinedButton.icon(
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatPage())),
+                icon: Icon(Icons.auto_awesome, color: AppTheme.isDark(context) ? Colors.white : colorScheme.primary),
+                label: Text(
+                  l10n.brainstormWithAi,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.isDark(context) ? Colors.white : colorScheme.primary),
+                ),
                 style: ButtonStyle(
                   fixedSize: const WidgetStatePropertyAll(Size(double.maxFinite, 56)),
                   shape: WidgetStatePropertyAll(
@@ -89,10 +102,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                child: Text(
-                  "Chat with AI",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.primary),
-                ),
               ),
               ThemeSpacing.verticalX2,
               TitleSection(label: l10n.recent, showSeeAll: false),
@@ -100,8 +109,12 @@ class _HomePageState extends State<HomePage> {
               StreamBuilder<QuerySnapshot>(
                 stream: DatabaseService().sessionHistoryStream,
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) return const LinearProgressIndicator();
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) return const Text("No Quiz Played Yet");
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const LinearProgressIndicator();
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Text(l10n.noQuizPlayedYet);
+                  }
                   return Column(
                     children: snapshot.data!.docs.map((doc) {
                       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;

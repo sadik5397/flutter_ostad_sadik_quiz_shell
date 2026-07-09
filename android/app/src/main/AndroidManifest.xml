@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- sms_autofill: optional permissions for receiving/reading SMS to support
+         OTP autofill on devices without Google Play Services SMS Retriever. -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <application
         android:label="Quiz Shell"
         android:name="${applicationName}"

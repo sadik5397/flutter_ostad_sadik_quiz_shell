@@ -15,10 +15,7 @@ class RankedItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: isMyself ? colorScheme.primary : Colors.transparent,
-          width: 1,
-        ),
+        border: Border.all(color: isMyself ? colorScheme.primary : Colors.transparent, width: 1),
         borderRadius: BorderRadius.circular(12),
         color: isMyself ? colorScheme.primaryContainer.withValues(alpha: 0.1) : null,
       ),
@@ -29,44 +26,26 @@ class RankedItem extends StatelessWidget {
           backgroundColor: colorScheme.secondaryContainer,
           child: Text(
             rank.toString(),
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: colorScheme.onSecondaryContainer,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: colorScheme.onSecondaryContainer),
           ),
         ),
         title: Row(
           spacing: 12,
           children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: colorScheme.surfaceContainer,
-              backgroundImage: NetworkImage(imageUrl),
-            ),
+            CircleAvatar(radius: 22, backgroundColor: colorScheme.surfaceContainer, backgroundImage: NetworkImage(imageUrl)),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: colorScheme.onSurface,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: colorScheme.onSurface),
                 ),
-                Text(
-                  "$points Points",
-                  style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 12),
-                ),
+                Text("$points Points", style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 12)),
               ],
             ),
           ],
         ),
-        trailing: Icon(
-          isMyself ? Icons.stars_rounded : Icons.diamond,
-          color: isMyself ? colorScheme.primary : Colors.pinkAccent,
-        ),
+        trailing: Icon(isMyself ? Icons.stars_rounded : Icons.diamond, color: isMyself ? colorScheme.primary : Colors.pinkAccent),
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_shell/l10n/app_localizations.dart';
+
 import 'manage_categories.dart';
 
 class AdminOptions extends StatelessWidget {
@@ -7,12 +9,10 @@ class AdminOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: colorScheme.surface,
-        title: const Text("Admin Options"),
-      ),
+      appBar: AppBar(backgroundColor: colorScheme.surface, title: Text(l10n.adminOptions)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -25,7 +25,7 @@ class AdminOptions extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 60),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text("MANAGE CATEGORIES & QUESTIONS", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              child: Text(l10n.manageCategoriesAndQuestions, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
