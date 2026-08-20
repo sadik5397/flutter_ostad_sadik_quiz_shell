@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -286,7 +285,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteCategory => 'Delete Category?';
 
   @override
-  String get deleteCategoryWarning => 'This will delete all questions in this category. This action cannot be undone.';
+  String get deleteCategoryWarning =>
+      'This will delete all questions in this category. This action cannot be undone.';
 
   @override
   String get delete => 'Delete';
@@ -298,7 +298,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteQuestion => 'Delete Question?';
 
   @override
-  String get deleteQuestionWarning => 'This action cannot be undone and the question will be permanently removed.';
+  String get deleteQuestionWarning =>
+      'This action cannot be undone and the question will be permanently removed.';
 
   @override
   String get noQuestionsInCategory => 'No questions in this category';
@@ -316,7 +317,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generateAiQuiz => 'Generate AI Quiz';
 
   @override
-  String get aiQuizDescription => 'Write any topic or subject and the AI will craft a quiz for you.';
+  String get aiQuizDescription =>
+      'Write any topic or subject and the AI will craft a quiz for you.';
 
   @override
   String get aiQuizTopicHint => 'e.g. World History, JavaScript Basics…';
@@ -369,7 +371,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resetForm => 'Reset Form';
 
   @override
-  String get pleaseSelectCorrectAnswerLong => 'Please select the correct answer by tapping the radio button next to it';
+  String get pleaseSelectCorrectAnswerLong =>
+      'Please select the correct answer by tapping the radio button next to it';
 
   @override
   String get questionSavedSuccessfully => 'Question saved successfully!';
@@ -395,7 +398,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get provideMobileNumberGreeting => 'One more step';
 
   @override
-  String get provideMobileNumberDescription => 'Please provide your mobile number to complete your profile and continue.';
+  String get provideMobileNumberDescription =>
+      'Please provide your mobile number to complete your profile and continue.';
 
   @override
   String get continueLabel => 'Continue';
@@ -413,7 +417,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subscriptionRequiredTitle => 'Subscription required';
 
   @override
-  String get subscriptionRequiredDescription => 'Your account is not currently subscribed. Please subscribe to this service to continue using the app.';
+  String get subscriptionRequiredDescription =>
+      'Your account is not currently subscribed. Please subscribe to this service to continue using the app.';
 
   @override
   String get subscriptionNotActive => 'Subscription is not active yet';
@@ -422,7 +427,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reCheckSubscription => 'Recheck subscription';
 
   @override
-  String get sendOtp => 'Send OTP';
+  String get sendOtp => 'Send OTP to Subscribe';
 
   @override
   String get verifyOtp => 'Verify OTP';
@@ -473,7 +478,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get updatePhoneNumberTitle => 'Update phone number';
 
   @override
-  String get updatePhoneNumberDescription => 'Enter a new mobile number. Your subscription will be re-verified against this number.';
+  String get updatePhoneNumberDescription =>
+      'Enter a new mobile number. Your subscription will be re-verified against this number.';
 
   @override
   String get phoneNumberUpdated => 'Phone number updated';
@@ -485,7 +491,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subscriptionRequiredToPlayTitle => 'Subscription required';
 
   @override
-  String get subscriptionRequiredToPlayDescription => 'You need an active subscription to start a quiz. Please subscribe from your profile to continue.';
+  String get subscriptionRequiredToPlayDescription =>
+      'You need an active subscription to start a quiz. Please subscribe from your profile to continue.';
 
   @override
   String get ok => 'OK';
@@ -494,10 +501,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get maybeLater => 'Maybe Later';
 
   @override
+  String get subscribeNow => 'Subscribe Now!';
+
+  @override
   String get enterOtpTitle => 'Enter verification code';
 
   @override
-  String get enterOtpDescription => 'We sent a 6-digit code to your mobile number. Enter it below to verify.';
+  String get enterOtpDescription =>
+      'We sent a 6-digit code to your mobile number. Enter it below to verify.';
 
   @override
   String get otpCode => '6-digit code';
@@ -515,5 +526,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resendOtp => 'Resend code';
 
   @override
-  String get otpPageHint => 'OTP not received? You can edit your phone number or try again.';
+  String get otpPageHint =>
+      'OTP not received? You can edit your phone number or try again.';
 }

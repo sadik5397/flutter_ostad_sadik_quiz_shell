@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:quiz_shell/service/user_data.dart';
+import 'package:quiz_shell/views/subscribe_page.dart';
 
 /// Returns `true` when the user is allowed to start a quiz, or
 /// `false` after showing a warning bottom sheet explaining the
@@ -59,17 +60,48 @@ class SubscriptionGuard {
                 const SizedBox(height: 12),
                 Text(l10n.subscriptionRequiredToPlayDescription, style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant, height: 1.4)),
                 const SizedBox(height: 20),
-                SizedBox(
-                  height: 48,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.of(sheetContext).pop(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.primary,
-                      foregroundColor: colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: SizedBox(
+                        height: 48,
+                        child: OutlinedButton(
+                          onPressed: () => Navigator.of(sheetContext).pop(),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: colorScheme.primary,
+                            side: BorderSide(color: colorScheme.primary, width: 1.4),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: Text(l10n.ok, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                        ),
+                      ),
                     ),
-                    child: Text(l10n.ok, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                  ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: SizedBox(
+                        height: 48,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            final mobile = UserData.userMobileNumber;
+                            Navigator.of(sheetContext).pop();
+                            // Use the original page's context for navigation
+                            // so the new route stays in the same Navigator
+                            // stack as the bottom sheet's caller.
+                            if (!context.mounted) return;
+                            if (mobile.isEmpty || mobile == '--') return;
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => SubscribePage(mobileNumber: mobile)));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.primary,
+                            foregroundColor: colorScheme.onPrimary,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          icon: const Icon(Icons.subscriptions_outlined, size: 18),
+                          label: Text(l10n.subscribeNow, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

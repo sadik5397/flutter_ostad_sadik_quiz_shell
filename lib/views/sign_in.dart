@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_shell/l10n/app_localizations.dart';
+import 'package:quiz_shell/service/database_service.dart';
 import 'package:quiz_shell/theme/theme_padding.dart';
+import 'package:quiz_shell/views/post_sign_in_router.dart';
 
 import '../service/auth_service.dart';
 
@@ -16,12 +18,27 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _handleGoogleSignIn() async {
     setState(() => _isSigningIn = true);
-    final user = await AuthService().signInWithGoogle();
+    final userCredential = await AuthService().signInWithGoogle();
     if (!mounted) return;
+    final user = userCredential?.user;
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.signInFailed)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.signInFailed)),
+      );
+      setState(() => _isSigningIn = false);
+      return;
     }
-    setState(() => _isSigningIn = false);
+    // Replace the login page entirely so AuthGate's auth-stream
+    // listener doesn't try to re-route on top of us. The router then
+    // checks Firestore for a mobile number and routes to
+    // CollectMobileNumberPage / SubscriptionGate / MainShell.
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (_) =>
+            PostSignInRouter(user: user, databaseService: DatabaseService()),
+      ),
+      (_) => false,
+    );
   }
 
   @override
@@ -46,13 +63,20 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   l10n.welcomeBack,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.onSurface,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   l10n.aiPoweredQuizShell,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 const SizedBox(height: 32),
                 SizedBox(
@@ -60,13 +84,30 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton.icon(
                     onPressed: _isSigningIn ? null : _handleGoogleSignIn,
                     icon: _isSigningIn
-                        ? SizedBox(height: 22, width: 22, child: CircularProgressIndicator(strokeWidth: 2.4, valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onPrimary)))
+                        ? SizedBox(
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.4,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                colorScheme.onPrimary,
+                              ),
+                            ),
+                          )
                         : const Icon(Icons.g_mobiledata, size: 40),
-                    label: Text(l10n.signInWithGoogle, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    label: Text(
+                      l10n.signInWithGoogle,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colorScheme.primary,
                       foregroundColor: colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                       elevation: 0,
                     ),
                   ),
@@ -74,7 +115,10 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 28),
                 Text(
                   l10n.noNeedToSignUp,
-                  style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 13),
+                  style: TextStyle(
+                    color: colorScheme.onSurfaceVariant,
+                    fontSize: 13,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 64),

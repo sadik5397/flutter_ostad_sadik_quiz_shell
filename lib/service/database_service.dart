@@ -5,7 +5,13 @@ import 'package:quiz_shell/service/user_data.dart';
 
 class DatabaseService {
   final FirebaseFirestore database = FirebaseFirestore.instance;
-  final String? uid = AuthService().currentUser?.uid;
+
+  /// Resolved at call time so the document id always reflects the
+  /// currently signed-in Firebase user. Capturing it as a `final`
+  /// field at construction time was unreliable: callers sometimes
+  /// instantiate `DatabaseService` immediately after `signInWithGoogle`
+  /// returns, before `firebaseAuth.currentUser` has propagated.
+  String? get uid => AuthService().currentUser?.uid;
 
   String userDatabaseLabel = "users";
   String quizSessionDatabaseLabel = "sessions";
@@ -13,7 +19,9 @@ class DatabaseService {
   //Get User's Total Score
   Stream<int> get totalScoreStream {
     if (uid == null) return Stream.value(0);
-    return database.collection(userDatabaseLabel).doc(uid).snapshots().map((doc) {
+    return database.collection(userDatabaseLabel).doc(uid).snapshots().map((
+      doc,
+    ) {
       if (doc.exists) {
         return (doc.data() as Map<String, dynamic>)['totalScore'] ?? 0;
       } else {
@@ -25,10 +33,20 @@ class DatabaseService {
   //Get a one-time snapshot of the current user's Firestore document.
   //Returns null if the user is not signed in, the document does not exist, or read fails.
   Future<Map<String, dynamic>?> getUserDocument() async {
-    if (uid == null) return null;
+    if (uid == null) {
+      debugPrint(
+        "DatabaseService.getUserDocument: no signed-in user (uid is null)",
+      );
+      return null;
+    }
     try {
-      final doc = await database.collection(userDatabaseLabel).doc(uid).get();
-      if (!doc.exists) return null;
+      final docRef = database.collection(userDatabaseLabel).doc(uid);
+      debugPrint("DatabaseService.getUserDocument: reading ${docRef.path}");
+      final doc = await docRef.get();
+      if (!doc.exists) {
+        debugPrint("DatabaseService.getUserDocument: document does not exist");
+        return null;
+      }
       final data = doc.data();
       final mobile = data?['mobileNumber'];
       if (mobile is String && mobile.trim().isNotEmpty) {
@@ -61,7 +79,12 @@ class DatabaseService {
   }
 
   //Save Quiz Session
-  Future<void> saveQuizSession({required int gainedScore, required int totalAttempt, required int totalCorrect, required String category}) async {
+  Future<void> saveQuizSession({
+    required int gainedScore,
+    required int totalAttempt,
+    required int totalCorrect,
+    required String category,
+  }) async {
     if (uid == null) return;
     final userRef = database.collection(userDatabaseLabel).doc(uid);
     final sessionRef = userRef.collection(quizSessionDatabaseLabel).doc();
@@ -71,7 +94,8 @@ class DatabaseService {
       int existingCurrentScore = 0;
       int newCurrentScore = 0;
       if (userDoc.exists) {
-        existingCurrentScore = (userDoc.data() as Map<String, dynamic>)['totalScore'] ?? 0;
+        existingCurrentScore =
+            (userDoc.data() as Map<String, dynamic>)['totalScore'] ?? 0;
       }
       newCurrentScore = existingCurrentScore + gainedScore;
       // 2. Update user's total score
@@ -96,11 +120,19 @@ class DatabaseService {
   //Get user's session history
   Stream<QuerySnapshot> get sessionHistoryStream {
     if (uid == null) return Stream.empty();
-    return database.collection(userDatabaseLabel).doc(uid).collection(quizSessionDatabaseLabel).orderBy('dateTime', descending: true).snapshots();
+    return database
+        .collection(userDatabaseLabel)
+        .doc(uid)
+        .collection(quizSessionDatabaseLabel)
+        .orderBy('dateTime', descending: true)
+        .snapshots();
   }
 
   //Get all users info for leaderboard (ordered by totalScore)
   Stream<QuerySnapshot> get allUsersStream {
-    return database.collection(userDatabaseLabel).orderBy('totalScore', descending: true).snapshots();
+    return database
+        .collection(userDatabaseLabel)
+        .orderBy('totalScore', descending: true)
+        .snapshots();
   }
 }

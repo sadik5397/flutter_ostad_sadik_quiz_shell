@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,12 @@ import 'package:sms_autofill/sms_autofill.dart';
 /// API on Android, system OTP autofill on iOS) to detect an incoming
 /// SMS and pre-fill the input automatically.
 class EnterOtpPage extends StatefulWidget {
-  const EnterOtpPage({super.key, required this.mobileNumber, required this.referenceNo, this.onVerified});
+  const EnterOtpPage({
+    super.key,
+    required this.mobileNumber,
+    required this.referenceNo,
+    this.onVerified,
+  });
 
   final String mobileNumber;
   final String referenceNo;
@@ -76,7 +82,11 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
       await AuthService().googleSignIn.signOut();
       await FirebaseAuth.instance.signOut();
       if (!mounted) return;
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const LoginPage()), (_) => false);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+        (_) => false,
+      );
     }
   }
 
@@ -140,8 +150,17 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
     try {
       final res = await BdappsService.verifyOtp(code, widget.referenceNo);
       if (!mounted) return;
-      if (res.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.otpVerified)));
+      final body = res.body.trim();
+
+      // Treat the response as success only when both the HTTP layer
+      // and the JSON `success` flag agree. BDApps often returns HTTP
+      // 200 with `success: false` / `statusCode: "E1303"` etc.
+      final isHttpOk = res.statusCode == 200;
+      final isJsonSuccess = _extractSuccessFlag(body) ?? false;
+      if (isHttpOk && isJsonSuccess) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.otpVerified)));
         if (widget.onVerified != null) {
           widget.onVerified!.call();
           return;
@@ -149,7 +168,12 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
         Navigator.of(context).pop(true);
         return;
       }
-      setState(() => _errorText = l10n.otpVerificationFailed);
+
+      // Prefer the server-provided `statusDetail` (e.g. "IP address
+      // ... is not listed withing the allowed-host-address list.")
+      // over the generic localized fallback.
+      final detail = _extractErrorMessage(body);
+      setState(() => _errorText = detail ?? l10n.otpVerificationFailed);
     } catch (_) {
       if (!mounted) return;
       setState(() => _errorText = l10n.otpVerificationFailed);
@@ -166,13 +190,25 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
       final res = await BdappsService.sendOtp(widget.mobileNumber);
       if (!mounted) return;
       if (res.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.otpSent)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.otpSent)));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.otpSendFailed), backgroundColor: Theme.of(context).colorScheme.error));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.otpSendFailed),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
       }
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.otpSendFailed), backgroundColor: Theme.of(context).colorScheme.error));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.otpSendFailed),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
     }
   }
 
@@ -189,7 +225,12 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      appBar: AppBar(backgroundColor: colorScheme.surface, elevation: 0, title: Text(l10n.enterOtpTitle), centerTitle: true),
+      appBar: AppBar(
+        backgroundColor: colorScheme.surface,
+        elevation: 0,
+        title: Text(l10n.enterOtpTitle),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -201,14 +242,21 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
                 child: CircleAvatar(
                   radius: 44,
                   backgroundColor: colorScheme.primaryContainer,
-                  child: Icon(Icons.sms_outlined, size: 40, color: colorScheme.onPrimaryContainer),
+                  child: Icon(
+                    Icons.sms_outlined,
+                    size: 40,
+                    color: colorScheme.onPrimaryContainer,
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
               Text(
                 l10n.enterOtpDescription,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 24),
               Card(
@@ -238,16 +286,30 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
                 Text(
                   _errorText!,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 13, color: colorScheme.error, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: colorScheme.error,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(Icons.sms_outlined, size: 16, color: colorScheme.onSurfaceVariant),
+                  Icon(
+                    Icons.sms_outlined,
+                    size: 16,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                   const SizedBox(width: 6),
-                  Text(l10n.otpAutoFillHint, style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
+                  Text(
+                    l10n.otpAutoFillHint,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 28),
@@ -256,24 +318,48 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
                 child: ElevatedButton.icon(
                   onPressed: _isVerifying ? null : _verify,
                   icon: _isVerifying
-                      ? SizedBox(height: 22, width: 22, child: CircularProgressIndicator(strokeWidth: 2.4, valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onPrimary)))
+                      ? SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.4,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              colorScheme.onPrimary,
+                            ),
+                          ),
+                        )
                       : const Icon(Icons.verified_outlined),
-                  label: Text(l10n.verify, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  label: Text(
+                    l10n.verify,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorScheme.primary,
                     foregroundColor: colorScheme.onPrimary,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                     elevation: 0,
                   ),
                 ),
               ),
               const SizedBox(height: 12),
-              TextButton.icon(onPressed: _isVerifying ? null : _resend, icon: const Icon(Icons.refresh, size: 18), label: Text(l10n.resendOtp)),
+              TextButton.icon(
+                onPressed: _isVerifying ? null : _resend,
+                icon: const Icon(Icons.refresh, size: 18),
+                label: Text(l10n.resendOtp),
+              ),
               const SizedBox(height: 12),
               Text(
                 l10n.otpPageHint,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),
@@ -281,13 +367,65 @@ class _EnterOtpPageState extends State<EnterOtpPage> {
       ),
     );
   }
+
+  /// Reads the BDApps JSON body's `success` flag. Returns `null` if
+  /// the body isn't a JSON object or the flag is absent.
+  bool? _extractSuccessFlag(String body) {
+    if (body.isEmpty) return null;
+    try {
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) return null;
+      final value = decoded['success'];
+      if (value is bool) return value;
+      if (value is num) return value != 0;
+      if (value is String) {
+        final lower = value.toLowerCase();
+        if (lower == 'true') return true;
+        if (lower == 'false') return false;
+      }
+    } catch (_) {
+      // Body wasn't JSON.
+    }
+    return null;
+  }
+
+  /// Extracts a human-readable error string from a BDApps response.
+  /// Priority: `message` → `statusDetail` → `statusMessage` →
+  /// `statusCode`. Returns `null` when nothing usable is found.
+  String? _extractErrorMessage(String body) {
+    if (body.isEmpty) return null;
+    try {
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) return null;
+      for (final key in const ['message', 'statusDetail', 'statusMessage']) {
+        final value = decoded[key];
+        if (value is String && value.trim().isNotEmpty) {
+          return value.trim();
+        }
+      }
+      final code = decoded['statusCode'];
+      if (code is String && code.trim().isNotEmpty) {
+        return code.trim();
+      }
+    } catch (_) {
+      // Body wasn't JSON.
+    }
+    return null;
+  }
 }
 
 /// Renders [_codeLength] single-digit fields with auto-advance,
 /// backspace-to-previous, and `AutofillHints.oneTimeCode` for SMS
 /// autofill support.
 class _OtpFieldRow extends StatelessWidget {
-  const _OtpFieldRow({required this.controllers, required this.focusNodes, required this.onDigitChanged, required this.onBackspace, required this.hasError, required this.colorScheme});
+  const _OtpFieldRow({
+    required this.controllers,
+    required this.focusNodes,
+    required this.onDigitChanged,
+    required this.onBackspace,
+    required this.hasError,
+    required this.colorScheme,
+  });
 
   final List<TextEditingController> controllers;
   final List<FocusNode> focusNodes;
@@ -316,7 +454,14 @@ class _OtpFieldRow extends StatelessWidget {
 }
 
 class _OtpDigitField extends StatelessWidget {
-  const _OtpDigitField({required this.controller, required this.focusNode, required this.onChanged, required this.onKeyEvent, required this.hasError, required this.colorScheme});
+  const _OtpDigitField({
+    required this.controller,
+    required this.focusNode,
+    required this.onChanged,
+    required this.onKeyEvent,
+    required this.hasError,
+    required this.colorScheme,
+  });
 
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -327,8 +472,12 @@ class _OtpDigitField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = hasError ? colorScheme.error : colorScheme.outlineVariant;
-    final fillColor = hasError ? colorScheme.errorContainer.withValues(alpha: 0.25) : colorScheme.surfaceContainerLow;
+    final borderColor = hasError
+        ? colorScheme.error
+        : colorScheme.outlineVariant;
+    final fillColor = hasError
+        ? colorScheme.errorContainer.withValues(alpha: 0.25)
+        : colorScheme.surfaceContainerLow;
 
     return SizedBox(
       width: 46,
@@ -342,8 +491,15 @@ class _OtpDigitField extends StatelessWidget {
           keyboardType: TextInputType.number,
           maxLength: 1,
           autofillHints: const <String>[AutofillHints.oneTimeCode],
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
-          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(1)],
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: colorScheme.onSurface,
+          ),
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(1),
+          ],
           decoration: InputDecoration(
             counterText: '',
             filled: true,
@@ -379,6 +535,10 @@ void goToMainIfSubscribed(BuildContext context, String mobile) async {
   if (!context.mounted) return;
   UserData.isSubscribed = subscribed;
   if (subscribed) {
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const MainShell()), (_) => false);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const MainShell()),
+      (_) => false,
+    );
   }
 }
