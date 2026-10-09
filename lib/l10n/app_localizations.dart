@@ -140,12 +140,6 @@ abstract class AppLocalizations {
   /// **'Check Leaderboard'**
   String get checkLeaderboard;
 
-  /// No description provided for @adminOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Admin Options'**
-  String get adminOptions;
-
   /// No description provided for @quizCompleted.
   ///
   /// In en, this message translates to:
@@ -410,102 +404,6 @@ abstract class AppLocalizations {
   /// **'Please enter your password'**
   String get passwordRequired;
 
-  /// No description provided for @manageCategoriesAndQuestions.
-  ///
-  /// In en, this message translates to:
-  /// **'MANAGE CATEGORIES & QUESTIONS'**
-  String get manageCategoriesAndQuestions;
-
-  /// No description provided for @addQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Question'**
-  String get addQuestion;
-
-  /// No description provided for @editQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit Question'**
-  String get editQuestion;
-
-  /// No description provided for @theQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'The Question'**
-  String get theQuestion;
-
-  /// No description provided for @enterQuestionTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter question title'**
-  String get enterQuestionTitle;
-
-  /// No description provided for @enterQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter question'**
-  String get enterQuestion;
-
-  /// No description provided for @answerOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Answer Options'**
-  String get answerOptions;
-
-  /// No description provided for @option.
-  ///
-  /// In en, this message translates to:
-  /// **'Option'**
-  String get option;
-
-  /// No description provided for @addMoreOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Add More Options'**
-  String get addMoreOptions;
-
-  /// No description provided for @misc.
-  ///
-  /// In en, this message translates to:
-  /// **'Misc.'**
-  String get misc;
-
-  /// No description provided for @markForThisQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'Mark for this question'**
-  String get markForThisQuestion;
-
-  /// No description provided for @enterMark.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter mark'**
-  String get enterMark;
-
-  /// No description provided for @submitQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'SUBMIT QUESTION'**
-  String get submitQuestion;
-
-  /// No description provided for @updateQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'UPDATE QUESTION'**
-  String get updateQuestion;
-
-  /// No description provided for @maxOptionsAllowed.
-  ///
-  /// In en, this message translates to:
-  /// **'Maximum 10 options allowed'**
-  String get maxOptionsAllowed;
-
-  /// No description provided for @pleaseSelectCorrectAnswer.
-  ///
-  /// In en, this message translates to:
-  /// **'Please select the correct answer'**
-  String get pleaseSelectCorrectAnswer;
-
   /// No description provided for @success.
   ///
   /// In en, this message translates to:
@@ -523,12 +421,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load questions'**
   String get failedToLoadQuestions;
-
-  /// No description provided for @locallyAddedQuestions.
-  ///
-  /// In en, this message translates to:
-  /// **'Locally Added Questions'**
-  String get locallyAddedQuestions;
 
   /// No description provided for @brainstormWithAi.
   ///
@@ -578,42 +470,6 @@ abstract class AppLocalizations {
   /// **'Quiz Categories'**
   String get quizCategories;
 
-  /// No description provided for @manageCategories.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage Categories'**
-  String get manageCategories;
-
-  /// No description provided for @newCategory.
-  ///
-  /// In en, this message translates to:
-  /// **'New Category'**
-  String get newCategory;
-
-  /// No description provided for @editCategory.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit Category'**
-  String get editCategory;
-
-  /// No description provided for @categoryName.
-  ///
-  /// In en, this message translates to:
-  /// **'Category Name'**
-  String get categoryName;
-
-  /// No description provided for @required.
-  ///
-  /// In en, this message translates to:
-  /// **'Required'**
-  String get required;
-
-  /// No description provided for @description.
-  ///
-  /// In en, this message translates to:
-  /// **'Description'**
-  String get description;
-
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
@@ -631,66 +487,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry'**
   String get retry;
-
-  /// No description provided for @noCategoriesFound.
-  ///
-  /// In en, this message translates to:
-  /// **'No categories found'**
-  String get noCategoriesFound;
-
-  /// No description provided for @tapToAddNewCategory.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap + to add a new category'**
-  String get tapToAddNewCategory;
-
-  /// No description provided for @deleteCategory.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete Category?'**
-  String get deleteCategory;
-
-  /// No description provided for @deleteCategoryWarning.
-  ///
-  /// In en, this message translates to:
-  /// **'This will delete all questions in this category. This action cannot be undone.'**
-  String get deleteCategoryWarning;
-
-  /// No description provided for @delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete'**
-  String get delete;
-
-  /// No description provided for @addCategory.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Category'**
-  String get addCategory;
-
-  /// No description provided for @deleteQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete Question?'**
-  String get deleteQuestion;
-
-  /// No description provided for @deleteQuestionWarning.
-  ///
-  /// In en, this message translates to:
-  /// **'This action cannot be undone and the question will be permanently removed.'**
-  String get deleteQuestionWarning;
-
-  /// No description provided for @noQuestionsInCategory.
-  ///
-  /// In en, this message translates to:
-  /// **'No questions in this category'**
-  String get noQuestionsInCategory;
-
-  /// No description provided for @tapToAddFirstQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap + to add your first question'**
-  String get tapToAddFirstQuestion;
 
   /// No description provided for @aiQuiz.
   ///
@@ -752,12 +548,6 @@ abstract class AppLocalizations {
   /// **'Categories'**
   String get categories;
 
-  /// No description provided for @admin.
-  ///
-  /// In en, this message translates to:
-  /// **'Admin'**
-  String get admin;
-
   /// No description provided for @profile.
   ///
   /// In en, this message translates to:
@@ -799,36 +589,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quiz'**
   String get quiz;
-
-  /// No description provided for @addNewQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'Add New Question'**
-  String get addNewQuestion;
-
-  /// No description provided for @resetForm.
-  ///
-  /// In en, this message translates to:
-  /// **'Reset Form'**
-  String get resetForm;
-
-  /// No description provided for @pleaseSelectCorrectAnswerLong.
-  ///
-  /// In en, this message translates to:
-  /// **'Please select the correct answer by tapping the radio button next to it'**
-  String get pleaseSelectCorrectAnswerLong;
-
-  /// No description provided for @questionSavedSuccessfully.
-  ///
-  /// In en, this message translates to:
-  /// **'Question saved successfully!'**
-  String get questionSavedSuccessfully;
-
-  /// No description provided for @errorSavingQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'Error saving question: {error}'**
-  String errorSavingQuestion(Object error);
 
   /// No description provided for @ok.
   ///

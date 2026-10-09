@@ -12,7 +12,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get appTitle => 'কুইজ শেল';
 
   @override
-  String get hi => 'হাই';
+  String get hi => 'হ্যালো';
 
   @override
   String get readyToPlay => 'খেলার জন্য প্রস্তুত';
@@ -30,10 +30,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get checkLeaderboard => 'লিডারবোর্ড দেখুন';
 
   @override
-  String get adminOptions => 'অ্যাডমিন অপশন';
-
-  @override
-  String get quizCompleted => 'কুইজ সম্পন্ন!';
+  String get quizCompleted => 'কুইজ সম্পন্ন হয়েছে!';
 
   @override
   String get yourScore => 'আপনার স্কোর';
@@ -45,7 +42,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get congratulations => 'অভিনন্দন!';
 
   @override
-  String get greatJob => 'দারুণ কাজ! আপনি খুব ভালো করেছেন';
+  String get greatJob => 'দারুণ খেলেছেন! আপনি খুব ভালো করেছেন';
 
   @override
   String get points => 'পয়েন্ট';
@@ -57,16 +54,16 @@ class AppLocalizationsBn extends AppLocalizations {
   String get name => 'নাম';
 
   @override
-  String get email => 'ইমেল';
+  String get email => 'ইমেইল';
 
   @override
-  String get joined => 'যোগদান করেছেন';
+  String get joined => 'যোগদানের তারিখ';
 
   @override
   String get signOut => 'সাইন আউট';
 
   @override
-  String get switchTheme => 'থিম পরিবর্তন করুন';
+  String get switchTheme => 'থিম পরিবর্তন';
 
   @override
   String get light => 'লাইট';
@@ -99,7 +96,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get incorrectAnswer => 'ভুল উত্তর';
 
   @override
-  String get quizNotAvailable => 'কুইজ এই মুহূর্তে উপলব্ধ নেই!';
+  String get quizNotAvailable => 'এই মুহূর্তে কোনো কুইজ নেই!';
 
   @override
   String get leaderboard => 'লিডারবোর্ড';
@@ -129,7 +126,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get welcomeBack => 'স্বাগতম';
 
   @override
-  String get signUpToProtect => 'আপনার ডিভাইস সুরক্ষিত করতে সাইন আপ করুন';
+  String get signUpToProtect => 'আপনার ডিভাইস সুরক্ষিত রাখতে সাইন আপ করুন';
 
   @override
   String get password => 'পাসওয়ার্ড';
@@ -147,10 +144,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get or => 'অথবা';
 
   @override
-  String get signInWithApple => 'অ্যাপল দিয়ে সাইন ইন';
+  String get signInWithApple => 'অ্যাপল দিয়ে সাইন ইন করুন';
 
   @override
-  String get signInWithFacebook => 'ফেসবুক দিয়ে সাইন ইন';
+  String get signInWithFacebook => 'ফেসবুক দিয়ে সাইন ইন করুন';
 
   @override
   String get dontHaveAccount => 'কোনো অ্যাকাউন্ট নেই?';
@@ -159,168 +156,66 @@ class AppLocalizationsBn extends AppLocalizations {
   String get signUp => 'সাইন আপ';
 
   @override
-  String get emailRequired => 'আপনার ইমেল দিন';
+  String get emailRequired => 'অনুগ্রহ করে আপনার ইমেইল দিন';
 
   @override
-  String get passwordRequired => 'আপনার পাসওয়ার্ড দিন';
+  String get passwordRequired => 'অনুগ্রহ করে পাসওয়ার্ড দিন';
 
   @override
-  String get manageCategoriesAndQuestions => 'ক্যাটাগরি ও প্রশ্ন পরিচালনা করুন';
-
-  @override
-  String get addQuestion => 'প্রশ্ন যোগ করুন';
-
-  @override
-  String get editQuestion => 'প্রশ্ন এডিট করুন';
-
-  @override
-  String get theQuestion => 'প্রশ্নটি';
-
-  @override
-  String get enterQuestionTitle => 'প্রশ্নের শিরোনাম দিন';
-
-  @override
-  String get enterQuestion => 'প্রশ্নটি লিখুন';
-
-  @override
-  String get answerOptions => 'উত্তরের অপশনগুলো';
-
-  @override
-  String get option => 'অপশন';
-
-  @override
-  String get addMoreOptions => 'আরও অপশন যোগ করুন';
-
-  @override
-  String get misc => 'বিবিধ';
-
-  @override
-  String get markForThisQuestion => 'এই প্রশ্নের জন্য মার্ক';
-
-  @override
-  String get enterMark => 'মার্ক লিখুন';
-
-  @override
-  String get submitQuestion => 'প্রশ্ন জমা দিন';
-
-  @override
-  String get updateQuestion => 'প্রশ্ন আপডেট করুন';
-
-  @override
-  String get maxOptionsAllowed => 'সর্বোচ্চ ১০টি অপশন দেওয়া সম্ভব';
-
-  @override
-  String get pleaseSelectCorrectAnswer =>
-      'অনুগ্রহ করে সঠিক উত্তরটি নির্বাচন করুন';
-
-  @override
-  String get success => 'সফল হয়েছে!';
+  String get success => 'সফল!';
 
   @override
   String get error => 'ত্রুটি';
 
   @override
-  String get failedToLoadQuestions => 'প্রশ্ন লোড করতে ব্যর্থ হয়েছে';
+  String get failedToLoadQuestions => 'প্রশ্ন লোড করা যায়নি';
 
   @override
-  String get locallyAddedQuestions => 'স্থানীয়ভাবে যোগ করা প্রশ্ন';
-
-  @override
-  String get brainstormWithAi => 'AI এর সাথে ব্রেইনস্টর্মিং';
+  String get brainstormWithAi => 'এআই দিয়ে আইডিয়া তৈরি করুন';
 
   @override
   String get noQuizPlayedYet => 'এখনো কোনো কুইজ খেলা হয়নি';
 
   @override
-  String get comingSoon => 'এই ফিচারটি এখন উপলব্ধ নেই, শীঘ্রই আসছে';
+  String get comingSoon => 'শীঘ্রই আসছে';
 
   @override
-  String get aiPoweredQuizShell => 'AI চালিত কুইজ শেল';
+  String get aiPoweredQuizShell => 'এআই চালিত কুইজ শেল';
 
   @override
   String get noNeedToSignUp =>
-      'সাইন আপ করার প্রয়োজন নেই\nকেবল গুগল দিয়ে সাইন ইন করুন';
+      'সাইন আপের প্রয়োজন নেই।\nশুধুমাত্র গুগল দিয়ে সাইন ইন করুন';
 
   @override
-  String get chatWithAi => 'AI এর সাথে কথা বলুন';
+  String get chatWithAi => 'এআই এর সাথে চ্যাট করুন';
 
   @override
   String get noDataAvailable => 'কোনো তথ্য পাওয়া যায়নি';
 
   @override
-  String get quizCategories => 'কুইজ ক্যাটাগরি';
-
-  @override
-  String get manageCategories => 'ক্যাটাগরি পরিচালনা করুন';
-
-  @override
-  String get newCategory => 'নতুন ক্যাটাগরি';
-
-  @override
-  String get editCategory => 'ক্যাটাগরি এডিট করুন';
-
-  @override
-  String get categoryName => 'ক্যাটাগরির নাম';
-
-  @override
-  String get required => 'প্রয়োজনীয়';
-
-  @override
-  String get description => 'বিবরণ';
+  String get quizCategories => 'কুইজ বিভাগসমূহ';
 
   @override
   String get cancel => 'বাতিল';
 
   @override
-  String get save => 'সংরক্ষণ করুন';
+  String get save => 'সংরক্ষণ';
 
   @override
   String get retry => 'আবার চেষ্টা করুন';
 
   @override
-  String get noCategoriesFound => 'কোনো ক্যাটাগরি পাওয়া যায়নি';
-
-  @override
-  String get tapToAddNewCategory => 'নতুন ক্যাটাগরি যোগ করতে + চাপুন';
-
-  @override
-  String get deleteCategory => 'ক্যাটাগরি মুছে ফেলবেন?';
-
-  @override
-  String get deleteCategoryWarning =>
-      'এটি এই ক্যাটাগরির সমস্ত প্রশ্ন মুছে ফেলবে। এই কাজটি আর ফিরিয়ে আনা যাবে না।';
-
-  @override
-  String get delete => 'মুছে ফেলুন';
-
-  @override
-  String get addCategory => 'ক্যাটাগরি যোগ করুন';
-
-  @override
-  String get deleteQuestion => 'প্রশ্নটি মুছে ফেলবেন?';
-
-  @override
-  String get deleteQuestionWarning =>
-      'এই কাজটি আর ফিরিয়ে আনা যাবে না এবং প্রশ্নটি স্থায়ীভাবে মুছে ফেলা হবে।';
-
-  @override
-  String get noQuestionsInCategory => 'এই ক্যাটাগরিতে কোনো প্রশ্ন নেই';
-
-  @override
-  String get tapToAddFirstQuestion => 'আপনার প্রথম প্রশ্ন যোগ করতে + চাপুন';
-
-  @override
-  String get aiQuiz => 'AI কুইজ';
+  String get aiQuiz => 'এআই কুইজ';
 
   @override
   String get anyTopic => 'যেকোনো বিষয়';
 
   @override
-  String get generateAiQuiz => 'AI কুইজ তৈরি করুন';
+  String get generateAiQuiz => 'এআই কুইজ তৈরি করুন';
 
   @override
   String get aiQuizDescription =>
-      'যেকোনো বিষয় বা টপিক লিখুন এবং AI আপনার জন্য একটি কুইজ তৈরি করবে।';
+      'যেকোনো বিষয় লিখুন এবং এআই আপনার জন্য একটি কুইজ তৈরি করবে।';
 
   @override
   String get aiQuizTopicHint => 'যেমন: বিশ্ব ইতিহাস, জাভাস্ক্রিপ্ট বেসিক…';
@@ -338,10 +233,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get home => 'হোম';
 
   @override
-  String get categories => 'ক্যাটাগরি';
-
-  @override
-  String get admin => 'অ্যাডমিন';
+  String get categories => 'বিভাগ';
 
   @override
   String get profile => 'প্রোফাইল';
@@ -350,7 +242,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get playAndWin => 'খেলুন এবং জিতুন';
 
   @override
-  String get startQuizNow => 'এখনই কুইজ শুরু করুন এবং উপভোগ করুন';
+  String get startQuizNow => 'এখনই একটি কুইজ শুরু করুন এবং উপভোগ করুন';
 
   @override
   String get getStarted => 'শুরু করুন';
@@ -360,29 +252,11 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String craftingQuiz(Object topic) {
-    return '\"$topic\"-এর ওপর কুইজ তৈরি হচ্ছে…';
+    return '\"$topic\" এর জন্য কুইজ তৈরি হচ্ছে…';
   }
 
   @override
   String get quiz => 'কুইজ';
-
-  @override
-  String get addNewQuestion => 'নতুন প্রশ্ন যোগ করুন';
-
-  @override
-  String get resetForm => 'ফর্ম রিসেট করুন';
-
-  @override
-  String get pleaseSelectCorrectAnswerLong =>
-      'অনুগ্রহ করে রেডিও বাটনে ট্যাপ করে সঠিক উত্তরটি নির্বাচন করুন';
-
-  @override
-  String get questionSavedSuccessfully => 'প্রশ্নটি সফলভাবে সংরক্ষিত হয়েছে!';
-
-  @override
-  String errorSavingQuestion(Object error) {
-    return 'প্রশ্ন সংরক্ষণে ত্রুটি: $error';
-  }
 
   @override
   String get ok => 'ঠিক আছে';

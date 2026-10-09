@@ -8,14 +8,12 @@ import 'package:quiz_shell/provider/category_provider.dart';
 import 'package:quiz_shell/provider/chat_provider.dart';
 import 'package:quiz_shell/provider/locale_provider.dart';
 import 'package:quiz_shell/provider/quiz_provider.dart';
-import 'package:quiz_shell/service/hive_database.dart';
 import 'package:quiz_shell/theme/theme.dart';
 import 'package:quiz_shell/views/auth_gate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await HiveDatabase.initialize();
   runApp(const MyApp());
 }
 

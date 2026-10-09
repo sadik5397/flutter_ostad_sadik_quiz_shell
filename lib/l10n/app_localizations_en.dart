@@ -30,9 +30,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checkLeaderboard => 'Check Leaderboard';
 
   @override
-  String get adminOptions => 'Admin Options';
-
-  @override
   String get quizCompleted => 'Quiz Completed!';
 
   @override
@@ -165,54 +162,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordRequired => 'Please enter your password';
 
   @override
-  String get manageCategoriesAndQuestions => 'MANAGE CATEGORIES & QUESTIONS';
-
-  @override
-  String get addQuestion => 'Add Question';
-
-  @override
-  String get editQuestion => 'Edit Question';
-
-  @override
-  String get theQuestion => 'The Question';
-
-  @override
-  String get enterQuestionTitle => 'Enter question title';
-
-  @override
-  String get enterQuestion => 'Enter question';
-
-  @override
-  String get answerOptions => 'Answer Options';
-
-  @override
-  String get option => 'Option';
-
-  @override
-  String get addMoreOptions => 'Add More Options';
-
-  @override
-  String get misc => 'Misc.';
-
-  @override
-  String get markForThisQuestion => 'Mark for this question';
-
-  @override
-  String get enterMark => 'Enter mark';
-
-  @override
-  String get submitQuestion => 'SUBMIT QUESTION';
-
-  @override
-  String get updateQuestion => 'UPDATE QUESTION';
-
-  @override
-  String get maxOptionsAllowed => 'Maximum 10 options allowed';
-
-  @override
-  String get pleaseSelectCorrectAnswer => 'Please select the correct answer';
-
-  @override
   String get success => 'Success!';
 
   @override
@@ -220,9 +169,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failedToLoadQuestions => 'Failed to load questions';
-
-  @override
-  String get locallyAddedQuestions => 'Locally Added Questions';
 
   @override
   String get brainstormWithAi => 'Brainstorm with AI';
@@ -249,24 +195,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quizCategories => 'Quiz Categories';
 
   @override
-  String get manageCategories => 'Manage Categories';
-
-  @override
-  String get newCategory => 'New Category';
-
-  @override
-  String get editCategory => 'Edit Category';
-
-  @override
-  String get categoryName => 'Category Name';
-
-  @override
-  String get required => 'Required';
-
-  @override
-  String get description => 'Description';
-
-  @override
   String get cancel => 'Cancel';
 
   @override
@@ -274,38 +202,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retry => 'Retry';
-
-  @override
-  String get noCategoriesFound => 'No categories found';
-
-  @override
-  String get tapToAddNewCategory => 'Tap + to add a new category';
-
-  @override
-  String get deleteCategory => 'Delete Category?';
-
-  @override
-  String get deleteCategoryWarning =>
-      'This will delete all questions in this category. This action cannot be undone.';
-
-  @override
-  String get delete => 'Delete';
-
-  @override
-  String get addCategory => 'Add Category';
-
-  @override
-  String get deleteQuestion => 'Delete Question?';
-
-  @override
-  String get deleteQuestionWarning =>
-      'This action cannot be undone and the question will be permanently removed.';
-
-  @override
-  String get noQuestionsInCategory => 'No questions in this category';
-
-  @override
-  String get tapToAddFirstQuestion => 'Tap + to add your first question';
 
   @override
   String get aiQuiz => 'AI Quiz';
@@ -339,9 +235,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categories => 'Categories';
 
   @override
-  String get admin => 'Admin';
-
-  @override
   String get profile => 'Profile';
 
   @override
@@ -363,24 +256,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quiz => 'Quiz';
-
-  @override
-  String get addNewQuestion => 'Add New Question';
-
-  @override
-  String get resetForm => 'Reset Form';
-
-  @override
-  String get pleaseSelectCorrectAnswerLong =>
-      'Please select the correct answer by tapping the radio button next to it';
-
-  @override
-  String get questionSavedSuccessfully => 'Question saved successfully!';
-
-  @override
-  String errorSavingQuestion(Object error) {
-    return 'Error saving question: $error';
-  }
 
   @override
   String get ok => 'OK';
