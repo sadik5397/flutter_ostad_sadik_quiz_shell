@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -211,7 +210,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get maxOptionsAllowed => 'সর্বোচ্চ ১০টি অপশন দেওয়া সম্ভব';
 
   @override
-  String get pleaseSelectCorrectAnswer => 'অনুগ্রহ করে সঠিক উত্তরটি নির্বাচন করুন';
+  String get pleaseSelectCorrectAnswer =>
+      'অনুগ্রহ করে সঠিক উত্তরটি নির্বাচন করুন';
 
   @override
   String get success => 'সফল হয়েছে!';
@@ -238,7 +238,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get aiPoweredQuizShell => 'AI চালিত কুইজ শেল';
 
   @override
-  String get noNeedToSignUp => 'সাইন আপ করার প্রয়োজন নেই\nকেবল গুগল দিয়ে সাইন ইন করুন';
+  String get noNeedToSignUp =>
+      'সাইন আপ করার প্রয়োজন নেই\nকেবল গুগল দিয়ে সাইন ইন করুন';
 
   @override
   String get chatWithAi => 'AI এর সাথে কথা বলুন';
@@ -286,7 +287,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get deleteCategory => 'ক্যাটাগরি মুছে ফেলবেন?';
 
   @override
-  String get deleteCategoryWarning => 'এটি এই ক্যাটাগরির সমস্ত প্রশ্ন মুছে ফেলবে। এই কাজটি আর ফিরিয়ে আনা যাবে না।';
+  String get deleteCategoryWarning =>
+      'এটি এই ক্যাটাগরির সমস্ত প্রশ্ন মুছে ফেলবে। এই কাজটি আর ফিরিয়ে আনা যাবে না।';
 
   @override
   String get delete => 'মুছে ফেলুন';
@@ -298,7 +300,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get deleteQuestion => 'প্রশ্নটি মুছে ফেলবেন?';
 
   @override
-  String get deleteQuestionWarning => 'এই কাজটি আর ফিরিয়ে আনা যাবে না এবং প্রশ্নটি স্থায়ীভাবে মুছে ফেলা হবে।';
+  String get deleteQuestionWarning =>
+      'এই কাজটি আর ফিরিয়ে আনা যাবে না এবং প্রশ্নটি স্থায়ীভাবে মুছে ফেলা হবে।';
 
   @override
   String get noQuestionsInCategory => 'এই ক্যাটাগরিতে কোনো প্রশ্ন নেই';
@@ -316,7 +319,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get generateAiQuiz => 'AI কুইজ তৈরি করুন';
 
   @override
-  String get aiQuizDescription => 'যেকোনো বিষয় বা টপিক লিখুন এবং AI আপনার জন্য একটি কুইজ তৈরি করবে।';
+  String get aiQuizDescription =>
+      'যেকোনো বিষয় বা টপিক লিখুন এবং AI আপনার জন্য একটি কুইজ তৈরি করবে।';
 
   @override
   String get aiQuizTopicHint => 'যেমন: বিশ্ব ইতিহাস, জাভাস্ক্রিপ্ট বেসিক…';
@@ -369,7 +373,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get resetForm => 'ফর্ম রিসেট করুন';
 
   @override
-  String get pleaseSelectCorrectAnswerLong => 'অনুগ্রহ করে রেডিও বাটনে ট্যাপ করে সঠিক উত্তরটি নির্বাচন করুন';
+  String get pleaseSelectCorrectAnswerLong =>
+      'অনুগ্রহ করে রেডিও বাটনে ট্যাপ করে সঠিক উত্তরটি নির্বাচন করুন';
 
   @override
   String get questionSavedSuccessfully => 'প্রশ্নটি সফলভাবে সংরক্ষিত হয়েছে!';
@@ -380,140 +385,5 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get mobileNumber => 'মোবাইল নম্বর';
-
-  @override
-  String get mobileNumberHint => 'যেমন: +৮৮০১৭১২৩৪৫৬৭৮';
-
-  @override
-  String get pleaseEnterMobileNumber => 'অনুগ্রহ করে আপনার মোবাইল নম্বর দিন';
-
-  @override
-  String get pleaseEnterValidMobile => 'অনুগ্রহ করে একটি বৈধ মোবাইল নম্বর দিন';
-
-  @override
-  String get provideMobileNumberGreeting => 'আরেকটু বাকি';
-
-  @override
-  String get provideMobileNumberDescription => 'আপনার প্রোফাইল সম্পূর্ণ করতে এবং এগিয়ে যেতে অনুগ্রহ করে মোবাইল নম্বর দিন।';
-
-  @override
-  String get continueLabel => 'এগিয়ে যান';
-
-  @override
-  String get mobileSaved => 'মোবাইল নম্বর সংরক্ষণ করা হয়েছে';
-
-  @override
-  String get mobileSaveFailed => 'মোবাইল নম্বর সংরক্ষণ করা যায়নি';
-
-  @override
-  String get subscription => 'সাবস্ক্রিপশন';
-
-  @override
-  String get subscriptionRequiredTitle => 'সাবস্ক্রিপশন প্রয়োজন';
-
-  @override
-  String get subscriptionRequiredDescription => 'আপনার অ্যাকাউন্টে বর্তমানে সাবস্ক্রিপশন নেই। অ্যাপটি ব্যবহার চালিয়ে যেতে অনুগ্রহ করে এই সেবায় সাবস্ক্রাইব করুন।';
-
-  @override
-  String get subscriptionNotActive => 'সাবস্ক্রিপশন এখনো সক্রিয় নয়';
-
-  @override
-  String get reCheckSubscription => 'আবার সাবস্ক্রিপশন যাচাই করুন';
-
-  @override
-  String get sendOtp => 'OTP পাঠান';
-
-  @override
-  String get verifyOtp => 'OTP যাচাই করুন';
-
-  @override
-  String get unsubscribe => 'সাবস্ক্রিপশন বাতিল';
-
-  @override
-  String get unsubscribeConfirm => 'আপনি কি নিশ্চিত যে সাবস্ক্রিপশন বাতিল করতে চান?';
-
-  @override
-  String get unsubscribed => 'সাবস্ক্রিপশন বাতিল করা হয়েছে';
-
-  @override
-  String get unsubscribeFailed => 'সাবস্ক্রিপশন বাতিল করা যায়নি';
-
-  @override
-  String get otp => 'OTP';
-
-  @override
-  String get referenceNo => 'রেফারেন্স নম্বর';
-
-  @override
-  String get verify => 'যাচাই করুন';
-
-  @override
-  String get otpSent => 'OTP পাঠানো হয়েছে';
-
-  @override
-  String get otpSendFailed => 'OTP পাঠানো যায়নি';
-
-  @override
-  String get otpVerified => 'OTP যাচাই করা হয়েছে';
-
-  @override
-  String get otpVerificationFailed => 'OTP যাচাই করা যায়নি';
-
-  @override
-  String get subscribed => 'সাবস্ক্রাইব করা আছে';
-
-  @override
-  String get notSubscribed => 'সাবস্ক্রাইব করা নেই';
-
-  @override
-  String get editPhoneNumber => 'ফোন নম্বর এডিট করুন';
-
-  @override
-  String get updatePhoneNumberTitle => 'ফোন নম্বর আপডেট করুন';
-
-  @override
-  String get updatePhoneNumberDescription => 'নতুন একটি মোবাইল নম্বর দিন। এই নম্বরের বিপরীতে আপনার সাবস্ক্রিপশন আবার যাচাই করা হবে।';
-
-  @override
-  String get phoneNumberUpdated => 'ফোন নম্বর আপডেট হয়েছে';
-
-  @override
-  String get phoneNumberUpdateFailed => 'ফোন নম্বর আপডেট করা যায়নি';
-
-  @override
-  String get subscriptionRequiredToPlayTitle => 'সাবস্ক্রিপশন প্রয়োজন';
-
-  @override
-  String get subscriptionRequiredToPlayDescription => 'কুইজ শুরু করতে একটি সক্রিয় সাবস্ক্রিপশন প্রয়োজন। অনুগ্রহ করে আপনার প্রোফাইল থেকে সাবস্ক্রাইব করুন।';
-
-  @override
   String get ok => 'ঠিক আছে';
-
-  @override
-  String get maybeLater => 'পরে হবে';
-
-  @override
-  String get enterOtpTitle => 'যাচাইকরণ কোড দিন';
-
-  @override
-  String get enterOtpDescription => 'আমরা আপনার মোবাইল নম্বরে একটি ৬ সংখ্যার কোড পাঠিয়েছি। যাচাই করতে নিচে কোডটি লিখুন।';
-
-  @override
-  String get otpCode => '৬ সংখ্যার কোড';
-
-  @override
-  String get pleaseEnterOtp => 'অনুগ্রহ করে ৬ সংখ্যার কোডটি লিখুন';
-
-  @override
-  String get otpMustBeSixDigits => 'কোডটি অবশ্যই ঠিক ৬ সংখ্যার হতে হবে';
-
-  @override
-  String get otpAutoFillHint => 'SMS এর জন্য অপেক্ষা করা হচ্ছে…';
-
-  @override
-  String get resendOtp => 'কোডটি আবার পাঠান';
-
-  @override
-  String get otpPageHint => 'OTP পাননি? আপনার ফোন নম্বর এডিট করতে পারেন অথবা আবার চেষ্টা করতে পারেন।';
 }

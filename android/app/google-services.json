@@ -7,26 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:33649304362:android:420eb4866e0a01af59f453",
+        "mobilesdk_app_id": "1:33649304362:android:dbc02ce127f5e09759f453",
         "android_client_info": {
-          "package_name": "com.example.quiz_shell"
+          "package_name": "com.sadikwork.quizshell"
         }
       },
       "oauth_client": [
         {
-          "client_id": "33649304362-b3qfbprb5elj5l5184jvag0bb6l0b80s.apps.googleusercontent.com",
+          "client_id": "33649304362-1ab0jfvn7hh2ieb0givacnu5j9g7sub3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.quiz_shell",
+            "package_name": "com.sadikwork.quizshell",
             "certificate_hash": "675235876ad58d777ff58e3cfeb8a645731231f5"
-          }
-        },
-        {
-          "client_id": "33649304362-ge1r1euehtkr6ed43vvmamnovu3k4tl2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.quiz_shell",
-            "certificate_hash": "67710408cd8ef7894c7adf2a7e10246e25b1f7e8"
           }
         },
         {

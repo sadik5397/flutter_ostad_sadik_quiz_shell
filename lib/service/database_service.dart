@@ -29,34 +29,25 @@ class DatabaseService {
     try {
       final doc = await database.collection(userDatabaseLabel).doc(uid).get();
       if (!doc.exists) return null;
-      final data = doc.data();
-      final mobile = data?['mobileNumber'];
-      if (mobile is String && mobile.trim().isNotEmpty) {
-        UserData.userMobileNumber = mobile;
-      }
-      return data;
+      return doc.data();
     } on Exception catch (e) {
       debugPrint("Failed to read user document: $e");
       return null;
     }
   }
 
-  //Save / update the current user's mobile number along with the standard profile fields.
-  Future<bool> saveMobileNumber(String mobileNumber) async {
-    if (uid == null) return false;
+  //Sync user profile info to Firestore on sign-in
+  Future<void> syncUserProfile() async {
+    if (uid == null) return;
     try {
       await database.collection(userDatabaseLabel).doc(uid).set({
-        'mobileNumber': mobileNumber,
         'displayName': UserData.userName,
         'email': UserData.userEmail,
         'photo': UserData.userImageUrl,
         'lastUpdated': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
-      UserData.userMobileNumber = mobileNumber;
-      return true;
     } on Exception catch (e) {
-      debugPrint("Failed to save mobile number: $e");
-      return false;
+      debugPrint("Failed to sync user profile: $e");
     }
   }
 
@@ -81,7 +72,7 @@ class DatabaseService {
         'email': UserData.userEmail,
         'photo': UserData.userImageUrl,
         'lastUpdated': FieldValue.serverTimestamp(),
-      });
+      }, SetOptions(merge: true));
       // 3. Append session data
       transaction.set(sessionRef, {
         'quizCategory': category,

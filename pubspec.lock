@@ -121,14 +121,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      sha256: "41e005c33bd814be4d3096aff55b1908d419fde52ca656c8c47719ec745873cd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.9"
   fake_async:
     dependency: transitive
     description:
@@ -478,7 +470,7 @@ packages:
     source: hosted
     version: "1.9.1"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       sha256: a7f4874f987173da295a61c181b8ee71dab59b332a486b391babf26a1b884825
@@ -533,14 +525,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.2"
-  pin_input_text_field:
-    dependency: transitive
-    description:
-      name: pin_input_text_field
-      sha256: f45683032283d30b670ec343781660655e3e1953438b281a0bc6e2d358486236
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.5.2"
   platform:
     dependency: transitive
     description:
@@ -658,14 +642,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  sms_autofill:
-    dependency: "direct main"
-    description:
-      name: sms_autofill
-      sha256: "5c6c5569a310fce12117eaefab5be6e29cc676b635e43be8b70b1946ec21ae91"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.0"
   source_span:
     dependency: transitive
     description:

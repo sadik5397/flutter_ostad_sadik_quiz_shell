@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_shell/service/auth_service.dart';
 import 'package:quiz_shell/service/database_service.dart';
-import 'package:quiz_shell/views/post_sign_in_router.dart';
+import 'package:quiz_shell/views/main_shell.dart';
 import 'package:quiz_shell/views/sign_in.dart';
 import 'package:quiz_shell/widgets/quiz_loading_shimmer.dart';
 
@@ -15,11 +15,7 @@ class AuthGate extends StatefulWidget {
 
 class _AuthGateState extends State<AuthGate> {
   late final Future<User?> _restoreSessionFuture;
-
-  // Bumped each time a user signs in or out, so we re-evaluate the
-  // Firestore "has mobile number" check against the latest auth state.
   late final Stream<User?> _authStream;
-  final DatabaseService _databaseService = DatabaseService();
 
   @override
   void initState() {
@@ -45,7 +41,8 @@ class _AuthGateState extends State<AuthGate> {
               return const Scaffold(body: Center(child: QuizLoadingShimmer()));
             }
             if (snapshot.hasData) {
-              return PostSignInRouter(user: snapshot.data!, databaseService: _databaseService);
+              DatabaseService().syncUserProfile();
+              return const MainShell();
             }
             return const LoginPage();
           },

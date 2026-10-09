@@ -1,4 +1,4 @@
-package com.example.quiz_shell
+package com.sadikwork.quizshell
 
 import io.flutter.embedding.android.FlutterActivity
 

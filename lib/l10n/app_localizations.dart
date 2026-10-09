@@ -62,7 +62,8 @@ import 'app_localizations_en.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -70,7 +71,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,15 +84,19 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('bn'), Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('bn'),
+    Locale('en'),
+  ];
 
   /// No description provided for @appTitle.
   ///
@@ -824,284 +830,15 @@ abstract class AppLocalizations {
   /// **'Error saving question: {error}'**
   String errorSavingQuestion(Object error);
 
-  /// No description provided for @mobileNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Mobile Number'**
-  String get mobileNumber;
-
-  /// No description provided for @mobileNumberHint.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. +8801712345678'**
-  String get mobileNumberHint;
-
-  /// No description provided for @pleaseEnterMobileNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter your mobile number'**
-  String get pleaseEnterMobileNumber;
-
-  /// No description provided for @pleaseEnterValidMobile.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter a valid mobile number'**
-  String get pleaseEnterValidMobile;
-
-  /// No description provided for @provideMobileNumberGreeting.
-  ///
-  /// In en, this message translates to:
-  /// **'One more step'**
-  String get provideMobileNumberGreeting;
-
-  /// No description provided for @provideMobileNumberDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Please provide your mobile number to complete your profile and continue.'**
-  String get provideMobileNumberDescription;
-
-  /// No description provided for @continueLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Continue'**
-  String get continueLabel;
-
-  /// No description provided for @mobileSaved.
-  ///
-  /// In en, this message translates to:
-  /// **'Mobile number saved'**
-  String get mobileSaved;
-
-  /// No description provided for @mobileSaveFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to save mobile number'**
-  String get mobileSaveFailed;
-
-  /// No description provided for @subscription.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscription'**
-  String get subscription;
-
-  /// No description provided for @subscriptionRequiredTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscription required'**
-  String get subscriptionRequiredTitle;
-
-  /// No description provided for @subscriptionRequiredDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Your account is not currently subscribed. Please subscribe to this service to continue using the app.'**
-  String get subscriptionRequiredDescription;
-
-  /// No description provided for @subscriptionNotActive.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscription is not active yet'**
-  String get subscriptionNotActive;
-
-  /// No description provided for @reCheckSubscription.
-  ///
-  /// In en, this message translates to:
-  /// **'Recheck subscription'**
-  String get reCheckSubscription;
-
-  /// No description provided for @sendOtp.
-  ///
-  /// In en, this message translates to:
-  /// **'Send OTP'**
-  String get sendOtp;
-
-  /// No description provided for @verifyOtp.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify OTP'**
-  String get verifyOtp;
-
-  /// No description provided for @unsubscribe.
-  ///
-  /// In en, this message translates to:
-  /// **'Unsubscribe'**
-  String get unsubscribe;
-
-  /// No description provided for @unsubscribeConfirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to unsubscribe?'**
-  String get unsubscribeConfirm;
-
-  /// No description provided for @unsubscribed.
-  ///
-  /// In en, this message translates to:
-  /// **'Unsubscribed successfully'**
-  String get unsubscribed;
-
-  /// No description provided for @unsubscribeFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to unsubscribe'**
-  String get unsubscribeFailed;
-
-  /// No description provided for @otp.
-  ///
-  /// In en, this message translates to:
-  /// **'OTP'**
-  String get otp;
-
-  /// No description provided for @referenceNo.
-  ///
-  /// In en, this message translates to:
-  /// **'Reference No'**
-  String get referenceNo;
-
-  /// No description provided for @verify.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify'**
-  String get verify;
-
-  /// No description provided for @otpSent.
-  ///
-  /// In en, this message translates to:
-  /// **'OTP sent'**
-  String get otpSent;
-
-  /// No description provided for @otpSendFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to send OTP'**
-  String get otpSendFailed;
-
-  /// No description provided for @otpVerified.
-  ///
-  /// In en, this message translates to:
-  /// **'OTP verified'**
-  String get otpVerified;
-
-  /// No description provided for @otpVerificationFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'OTP verification failed'**
-  String get otpVerificationFailed;
-
-  /// No description provided for @subscribed.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscribed'**
-  String get subscribed;
-
-  /// No description provided for @notSubscribed.
-  ///
-  /// In en, this message translates to:
-  /// **'Not subscribed'**
-  String get notSubscribed;
-
-  /// No description provided for @editPhoneNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit phone number'**
-  String get editPhoneNumber;
-
-  /// No description provided for @updatePhoneNumberTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Update phone number'**
-  String get updatePhoneNumberTitle;
-
-  /// No description provided for @updatePhoneNumberDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a new mobile number. Your subscription will be re-verified against this number.'**
-  String get updatePhoneNumberDescription;
-
-  /// No description provided for @phoneNumberUpdated.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number updated'**
-  String get phoneNumberUpdated;
-
-  /// No description provided for @phoneNumberUpdateFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to update phone number'**
-  String get phoneNumberUpdateFailed;
-
-  /// No description provided for @subscriptionRequiredToPlayTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Subscription required'**
-  String get subscriptionRequiredToPlayTitle;
-
-  /// No description provided for @subscriptionRequiredToPlayDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'You need an active subscription to start a quiz. Please subscribe from your profile to continue.'**
-  String get subscriptionRequiredToPlayDescription;
-
   /// No description provided for @ok.
   ///
   /// In en, this message translates to:
   /// **'OK'**
   String get ok;
-
-  /// No description provided for @maybeLater.
-  ///
-  /// In en, this message translates to:
-  /// **'Maybe Later'**
-  String get maybeLater;
-
-  /// No description provided for @enterOtpTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter verification code'**
-  String get enterOtpTitle;
-
-  /// No description provided for @enterOtpDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'We sent a 6-digit code to your mobile number. Enter it below to verify.'**
-  String get enterOtpDescription;
-
-  /// No description provided for @otpCode.
-  ///
-  /// In en, this message translates to:
-  /// **'6-digit code'**
-  String get otpCode;
-
-  /// No description provided for @pleaseEnterOtp.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter the 6-digit code'**
-  String get pleaseEnterOtp;
-
-  /// No description provided for @otpMustBeSixDigits.
-  ///
-  /// In en, this message translates to:
-  /// **'The code must be exactly 6 digits'**
-  String get otpMustBeSixDigits;
-
-  /// No description provided for @otpAutoFillHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Waiting for SMS…'**
-  String get otpAutoFillHint;
-
-  /// No description provided for @resendOtp.
-  ///
-  /// In en, this message translates to:
-  /// **'Resend code'**
-  String get resendOtp;
-
-  /// No description provided for @otpPageHint.
-  ///
-  /// In en, this message translates to:
-  /// **'OTP not received? You can edit your phone number or try again.'**
-  String get otpPageHint;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -1110,7 +847,8 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['bn', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['bn', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

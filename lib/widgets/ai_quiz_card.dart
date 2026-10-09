@@ -3,7 +3,6 @@ import 'package:quiz_shell/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../views/quiz_page.dart';
-import 'subscription_guard.dart';
 
 const String _kAiRecentsKey = 'ai_quiz_recents';
 const int _kAiRecentsMax = 12;
@@ -19,7 +18,6 @@ class AiQuizCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: () {
-          if (!SubscriptionGuard.canStart(context)) return;
           _showTopicBottomSheet(context);
         },
         borderRadius: BorderRadius.circular(12),

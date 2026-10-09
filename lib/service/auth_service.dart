@@ -5,8 +5,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../views/sign_in.dart';
 
 class AuthService {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  GoogleSignIn googleSignIn = GoogleSignIn();
+  static final AuthService _instance = AuthService._internal();
+  factory AuthService() => _instance;
+  AuthService._internal();
+
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    serverClientId: '33649304362-vjpl3129hj2jos5ub4d9rr84nf6035b7.apps.googleusercontent.com',
+  );
 
   User? get currentUser => firebaseAuth.currentUser;
 
@@ -45,6 +51,6 @@ class AuthService {
     await googleSignIn.signOut();
     await firebaseAuth.signOut();
     if (!context.mounted) return;
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../model/quiz_category_model.dart';
 import '../views/quiz_page.dart';
-import 'subscription_guard.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({super.key, required this.category});
@@ -16,7 +15,6 @@ class CategoryCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: () {
-          if (!SubscriptionGuard.canStart(context)) return;
           Navigator.push(context, MaterialPageRoute(builder: (context) => QuizPage(category: category)));
         },
         borderRadius: BorderRadius.circular(12),
